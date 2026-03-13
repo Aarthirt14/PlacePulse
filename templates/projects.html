@@ -83,3 +83,20 @@
                     <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:4px;text-transform:uppercase">Placement Benefit</div>
                     <div style="font-size:12px;color:var(--text2)">{{ p.benefit }}</div>
                 </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="card" style="text-align:center;padding:100px 20px">
+            <div style="font-size:60px;margin-bottom:20px">🛠</div>
+            <h2 style="font-size:26px;margin-bottom:10px">Project Suggestion Engine</h2>
+            <p style="max-width:450px;margin-inline:auto;color:var(--text2);line-height:1.7;margin-bottom:24px">
+                Select a category from the left to explore hand-picked project ideas that will make your resume stand out to technical interviewers.
+            </p>
+            <div style="display:flex;gap:10px;justify-content:center">
+                <a href="/projects?cat=machine_learning" class="btn btn-primary">Try Machine Learning</a>
+                <a href="/projects?cat=web_development" class="btn btn-outline">Try Web Dev</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
