@@ -12,3 +12,17 @@
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
                 <span style="font-size:22px">{{ icon }}</span>
                 <span style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase">Band {{ loop.index }}</span>
+            </div>
+            <h4 style="font-size:16px;color:{{ color }};margin-bottom:4px">{{ label }}</h4>
+            <div style="font-size:12px;color:var(--text2)">Score Range: {{ low }} – {{ high }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <div class="card-title">📊 Dimension Weights</div>
+        <p style="font-size:12.5px;color:var(--text3);margin-bottom:18px">How PlaceIQ calculates your core employability score.</p>
+        
+        <canvas id="weight-chart" style="max-height:220px"></canvas>
