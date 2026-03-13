@@ -70,3 +70,75 @@ def predict_page():
 
 @app.route('/predict', methods=['POST'])
 def predict_api():
+    try:
+        data = request.get_json() or request.form.to_dict()
+        model, scaler, feature_cols, model_name = get_model()
+        if model is None:
+            return jsonify({'error': 'Model not trained yet. Please wait for initialization.'}), 503
+
+        from utils.predictor import prepare_input, compute_shap_approximation, generate_recommendations, compute_risk_score, get_performance_category
+        from utils.eda import generate_shap_bar
+        from model.train import get_feature_importance
+
+        X_scaled, row = prepare_input(data, feature_cols, scaler)
+        prob = float(model.predict_proba(X_scaled)[0][1])
+        prediction = 'Placed' if prob >= 0.5 else 'Not Placed'
+        risk_score = compute_risk_score(prob, data)
+        category, color, icon = get_performance_category(prob)
+        
+        shap_vals = compute_shap_approximation(model, X_scaled, feature_cols)
+        generate_shap_bar(feature_cols, shap_vals)
+
+        fi = get_feature_importance()
+        top_features = sorted(fi.items(), key=lambda x: x[1], reverse=True)[:5] if fi else []
+
+        from utils.weakness_detector import detect_weaknesses
+        from utils.recommendation_engine import generate_advanced_recommendations
+        from utils.career_score import compute_employability_score
+        
+        # New AI Analysis
+        weaknesses = detect_weaknesses(data)
+        career_score = compute_employability_score(data)
+        recommendations = generate_advanced_recommendations(data, prob * 100, weaknesses)
+
+        result = {
+            'student_name': data.get('student_name', 'Student'),
+            'probability': round(prob * 100, 2),
+            'prediction': prediction,
+            'risk_score': risk_score,
+            'category': category,
+            'category_color': color,
+            'category_icon': icon,
+            'recommendations': recommendations,
+            'feature_importance': dict(top_features),
+            'shap_plot': 'graphs/shap_plot.png',
+            'model_used': model_name,
+            'top_positive': [f for f, v in zip(feature_cols, shap_vals) if v > 0.02][:3],
+            'top_negative': [f for f, v in zip(feature_cols, shap_vals) if v < -0.02][:3],
+            'weaknesses': weaknesses,
+            'career_score': career_score,
+            'input_data': data
+        }
+
+        db_data = {**data, **{
+            'probability': round(prob * 100, 2),
+            'risk_score': risk_score,
+            'category': category,
+            'prediction': prediction,
+            'recommendations': recommendations,
+            'feature_importance': dict(top_features)
+        }}
+        save_prediction(db_data)
+
+        return jsonify(result)
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/result')
+def result_page():
+    return render_template('result.html')
+
+@app.route('/dashboard')
