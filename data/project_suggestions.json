@@ -121,3 +121,44 @@
         },
         {
           "id": "ds_02",
+          "title": "Stock Price Dashboard",
+          "description": "Interactive dashboard showing stock prices, moving averages, and RSI indicators using yfinance and Streamlit.",
+          "difficulty": "Intermediate",
+          "duration": "2 weeks",
+          "tech_stack": ["Python", "yfinance", "Streamlit", "Plotly"],
+          "skills_gained": ["Time series", "Streamlit", "Finance analytics"],
+          "github_search": "stock price dashboard streamlit python"
+        },
+        {
+          "id": "ds_03",
+          "title": "IPL Match Analysis",
+          "description": "Deep dive into IPL ball-by-ball data. Identify top performers, win factors, and toss impact with Seaborn visualizations.",
+          "difficulty": "Beginner",
+          "duration": "1-2 weeks",
+          "tech_stack": ["Python", "pandas", "seaborn", "Jupyter"],
+          "skills_gained": ["Sports analytics", "Groupby", "Visualization"],
+          "github_search": "IPL data analysis python jupyter"
+        },
+        {
+          "id": "ds_04",
+          "title": "Sales Forecasting with Prophet",
+          "description": "Use Facebook Prophet to forecast quarterly sales for a retail dataset. Visualize seasonal trends and anomalies.",
+          "difficulty": "Intermediate",
+          "duration": "2-3 weeks",
+          "tech_stack": ["Python", "Prophet", "pandas", "Matplotlib"],
+          "skills_gained": ["Time series forecasting", "Prophet", "Business analytics"],
+          "github_search": "sales forecasting facebook prophet python"
+        }
+      ]
+    },
+    "python_automation": {
+      "label": "Python & Automation",
+      "icon": "🐍",
+      "weakness_tags": ["low_projects", "low_experience"],
+      "projects": [
+        {
+          "id": "py_01",
+          "title": "Automated Resume Builder",
+          "description": "Python script that takes a JSON profile and generates a formatted PDF resume using ReportLab or python-docx.",
+          "difficulty": "Beginner",
+          "duration": "1 week",
