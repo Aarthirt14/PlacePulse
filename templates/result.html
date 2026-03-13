@@ -106,3 +106,57 @@
             <div class="card-title">📈 Employability Score</div>
             <div class="risk-gauge">
                 <canvas id="career-chart" width="200" height="110"></canvas>
+                <div class="gauge-val" id="career-val">–</div>
+                <div class="gauge-label" id="career-band">Loading…</div>
+            </div>
+        </div>
+        <!-- Weaknesses -->
+        <div class="card">
+            <div class="card-title">🔍 Weakness Detection</div>
+            <div id="weakness-list" style="max-height:160px;overflow-y:auto;padding-right:4px">
+                <p style="color:var(--text3);font-size:12px">Analyzing student profile…</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:22px">
+        <!-- Feature Impact -->
+        <div class="card">
+            <div class="card-title">📊 SHAP – Feature Impact</div>
+            <p style="font-size:11px;color:var(--text3);margin-bottom:10px">Impact on placement probability</p>
+            <div id="shap-bars"></div>
+        </div>
+        <!-- Feature Importance -->
+        <div class="card">
+            <div class="card-title">🏆 Top Global Drivers</div>
+            <div id="fi-bars"></div>
+        </div>
+    </div>
+        <!-- Model Info -->
+        <div class="card">
+            <div class="card-title">🤖 Model & Performance Category</div>
+            <div id="model-info"></div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="card" style="margin-bottom:22px">
+        <div class="card-title">💡 AI-Powered Recommendations</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Personalized suggestions to improve placement probability.</p>
+        <div id="recommendations"></div>
+    </div>
+
+</div>
+
+<div id="no-result" class="card" style="text-align:center;padding:60px">
+    <div style="font-size:48px;margin-bottom:14px">⚠</div>
+    <h3 style="margin-bottom:8px">No Result Found</h3>
+    <p style="color:var(--text2);margin-bottom:22px">Please submit a prediction form first.</p>
+    <a href="/predict" class="btn btn-primary">◈ Make Prediction</a>
+    <a href="/improvement" class="btn btn-outline">✨ Improvement Hub</a>
+</div>
+
+<script>
+const result = JSON.parse(sessionStorage.getItem('prediction_result') || 'null');
+
+if (result) {
