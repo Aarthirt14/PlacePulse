@@ -127,3 +127,46 @@
           "reason": "Targeted for HR interviews, GD rounds, and workplace communication"
         }
       ]
+    },
+    "internshala": {
+      "name": "Internshala",
+      "logo": "💼",
+      "url": "https://internshala.com/trainings",
+      "description": "Online trainings and internship platform specifically for Indian students. Certificates are recognized by SMEs and startups.",
+      "cost": "₹500–₹2000",
+      "recognized_by": "SMEs, startups, Indian recruiters",
+      "courses": [
+        {
+          "title": "Web Development Training",
+          "duration": "6 weeks",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_projects", "low_experience", "no_internships"],
+          "reason": "Includes internship placement assistance after completion"
+        },
+        {
+          "title": "Data Science Training",
+          "duration": "6 weeks",
+          "difficulty": "Intermediate",
+          "skill_tags": ["low_projects", "no_internships"],
+          "reason": "Hands-on R + Python training with real-world datasets"
+        },
+        {
+          "title": "Digital Marketing",
+          "duration": "4 weeks",
+          "difficulty": "Beginner",
+          "skill_tags": ["no_internships", "low_experience"],
+          "reason": "High internship placement rate, all-stream students eligible"
+        },
+        {
+          "title": "Programming with Python",
+          "duration": "4 weeks",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_aptitude", "low_projects"],
+          "reason": "AICTE-recognized certificate with guaranteed internship leads"
+        }
+      ]
+    },
+    "kaggle": {
+      "name": "Kaggle",
+      "logo": "🏆",
+      "url": "https://kaggle.com/learn",
