@@ -23,3 +23,28 @@ def init_db():
             projects INTEGER,
             workshops INTEGER,
             aptitude_score REAL,
+            ssc_marks REAL,
+            hsc_marks REAL,
+            backlogs INTEGER,
+            probability REAL,
+            risk_score REAL,
+            category TEXT,
+            prediction TEXT,
+            recommendations TEXT,
+            feature_importance TEXT
+        )
+    ''')
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS model_metrics (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp TEXT,
+            model_name TEXT,
+            accuracy REAL,
+            precision_score REAL,
+            recall REAL,
+            f1_score REAL,
+            is_best INTEGER DEFAULT 0
+        )
+    ''')
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS improvement_tracker (
