@@ -28,3 +28,18 @@
 </style>
 {% endblock %}
 
+{% block content %}
+<div class="suggestion-banner">
+    <div style="font-size:44px">📜</div>
+    <div style="flex:1">
+        <h3 style="color:var(--primary);margin-bottom:4px">Boost Your Resume with Certifications</h3>
+        <p style="color:var(--text2);font-size:13.5px">
+            Recruiters value self-driven learning. Complete courses from these recognized platforms to demonstrate your expertise beyond college academics.
+        </p>
+    </div>
+    <a href="/projects" class="btn btn-primary">Browse Projects Instead</a>
+</div>
+
+<div class="platform-grid">
+    {% for key, p in platforms.items() %}
+    <div class="platform-card" onclick="window.open('{{ p.url }}', '_blank')">
