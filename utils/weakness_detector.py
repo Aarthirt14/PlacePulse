@@ -54,3 +54,59 @@ def detect_weaknesses(data: dict) -> list[dict]:
     internships    = int(_f(data.get("internships", 0)))
     projects       = int(_f(data.get("projects", 0)))
     workshops      = int(_f(data.get("workshops", data.get("workshops_certifications", 0))))
+    backlogs       = int(_f(data.get("backlogs", 0)))
+    ssc            = _f(data.get("ssc_marks", 70))
+    hsc            = _f(data.get("hsc_marks", 70))
+    extracurr      = str(data.get("extracurricular", "No")).strip().lower()
+    placement_tr   = str(data.get("placement_training", "No")).strip().lower()
+
+    # ------------------------------------------------------------------ CGPA
+    if cgpa < THRESHOLDS["cgpa"]["critical"]:
+        weaknesses.append({
+            "field": "low_cgpa",
+            "label": "Very Low CGPA",
+            "severity": "CRITICAL",
+            "actual_value": cgpa,
+            "threshold": THRESHOLDS["cgpa"]["critical"],
+            "message": f"Your CGPA of {cgpa:.2f} is critically low. Most companies require ≥ 6.0, many require ≥ 7.0.",
+            "improvement_hint": "Focus on academic recovery — target ≥ 7.0 in upcoming semesters.",
+            "tag": "low_cgpa",
+            "icon": "🎓"
+        })
+    elif cgpa < THRESHOLDS["cgpa"]["high"]:
+        weaknesses.append({
+            "field": "low_cgpa",
+            "label": "Low CGPA",
+            "severity": "HIGH",
+            "actual_value": cgpa,
+            "threshold": THRESHOLDS["cgpa"]["high"],
+            "message": f"Your CGPA of {cgpa:.2f} may disqualify you from companies that require ≥ 6.5.",
+            "improvement_hint": "Improve internal marks, attend extra classes, and clear backlogs.",
+            "tag": "low_cgpa",
+            "icon": "🎓"
+        })
+    elif cgpa < THRESHOLDS["cgpa"]["medium"]:
+        weaknesses.append({
+            "field": "low_cgpa",
+            "label": "Below-Average CGPA",
+            "severity": "MEDIUM",
+            "actual_value": cgpa,
+            "threshold": THRESHOLDS["cgpa"]["medium"],
+            "message": f"CGPA {cgpa:.2f} is below average. Improving to 7.5+ significantly raises your chances.",
+            "improvement_hint": "Score higher in remaining semesters and tackle pending backlogs.",
+            "tag": "low_cgpa",
+            "icon": "🎓"
+        })
+
+    # ----------------------------------------------------------------- Backlogs
+    if backlogs >= THRESHOLDS["backlogs"]["high"]:
+        weaknesses.append({
+            "field": "backlogs",
+            "label": "Multiple Backlogs",
+            "severity": "CRITICAL",
+            "actual_value": backlogs,
+            "threshold": THRESHOLDS["backlogs"]["high"],
+            "message": f"You have {backlogs} backlogs. Most top-tier companies immediately disqualify candidates with any backlog.",
+            "improvement_hint": "Prioritize clearing all backlogs before placement season begins.",
+            "tag": "backlogs",
+            "icon": "⚠"
