@@ -43,3 +43,18 @@
 <div class="platform-grid">
     {% for key, p in platforms.items() %}
     <div class="platform-card" onclick="window.open('{{ p.url }}', '_blank')">
+        <div class="platform-header">
+            <div class="platform-icon">{{ p.icon }}</div>
+            <div class="platform-title">{{ p.label }}</div>
+        </div>
+        <p class="platform-desc">{{ p.description }}</p>
+        
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+            {% for cat in p.top_categories %}
+            <span class="tag tag-amber" style="font-size:10px">{{ cat }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="feature-list">
+            <div class="feature-item"><div class="feature-dot"></div> {{ p.pricing }}</div>
+            <div class="feature-item"><div class="feature-dot"></div> {{ p.recognition }} Recognition</div>
