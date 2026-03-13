@@ -39,3 +39,44 @@
           "id": "ml_04",
           "title": "Crop Yield Prediction",
           "description": "Predict crop yield using weather and soil data. A great project for showcasing regression and feature engineering skills.",
+          "difficulty": "Beginner",
+          "duration": "2 weeks",
+          "tech_stack": ["Python", "scikit-learn", "seaborn", "pandas"],
+          "skills_gained": ["Regression", "EDA", "Feature engineering"],
+          "github_search": "crop yield prediction machine learning"
+        },
+        {
+          "id": "ml_05",
+          "title": "Customer Churn Predictor",
+          "description": "Predict which telecom customers will churn using classification models. Include SHAP values for explainability.",
+          "difficulty": "Intermediate",
+          "duration": "2-3 weeks",
+          "tech_stack": ["Python", "XGBoost", "SHAP", "Streamlit"],
+          "skills_gained": ["Classification", "XGBoost", "Explainability", "Streamlit"],
+          "github_search": "customer churn prediction xgboost"
+        }
+      ]
+    },
+    "web_development": {
+      "label": "Web Development",
+      "icon": "🌐",
+      "weakness_tags": ["low_projects", "low_experience", "low_soft_skills"],
+      "projects": [
+        {
+          "id": "web_01",
+          "title": "Personal Portfolio Website",
+          "description": "Build a responsive portfolio with your resume, projects, skills, and contact info. Deploy on GitHub Pages or Netlify for free.",
+          "difficulty": "Beginner",
+          "duration": "1 week",
+          "tech_stack": ["HTML", "CSS", "JavaScript"],
+          "skills_gained": ["HTML/CSS", "Responsive design", "Deployment"],
+          "github_search": "portfolio website html css javascript"
+        },
+        {
+          "id": "web_02",
+          "title": "Student Result Management System",
+          "description": "Full-stack CRUD app to manage student marks, generate grade reports, and export PDFs. Great LinkedIn project.",
+          "difficulty": "Intermediate",
+          "duration": "3 weeks",
+          "tech_stack": ["Flask", "SQLite", "Bootstrap", "Python"],
+          "skills_gained": ["Backend dev", "Database", "PDF generation"],
