@@ -166,3 +166,59 @@ def detect_weaknesses(data: dict) -> list[dict]:
     if internships == 0:
         weaknesses.append({
             "field": "no_internships",
+            "label": "No Internship Experience",
+            "severity": "HIGH",
+            "actual_value": 0,
+            "threshold": 1,
+            "message": "You have no internship experience. Recruiters strongly prefer candidates with at least 1 internship.",
+            "improvement_hint": "Apply on Internshala for remote internships — even virtual ones count.",
+            "tag": "no_internships",
+            "icon": "💼"
+        })
+    elif internships == 1:
+        weaknesses.append({
+            "field": "no_internships",
+            "label": "Limited Internship Experience",
+            "severity": "LOW",
+            "actual_value": 1,
+            "threshold": 2,
+            "message": "Only 1 internship. 2+ internships strongly differentiate candidates at the interview stage.",
+            "improvement_hint": "Apply for a second internship or a meaningful project-based freelance role.",
+            "tag": "no_internships",
+            "icon": "💼"
+        })
+
+    # ----------------------------------------------------------------- Projects
+    if projects == 0:
+        weaknesses.append({
+            "field": "low_projects",
+            "label": "No Projects",
+            "severity": "HIGH",
+            "actual_value": 0,
+            "threshold": 2,
+            "message": "You have no projects. Projects prove practical skills and are essential for technical interviews.",
+            "improvement_hint": "Start with a beginner project this week — see the Projects page for ideas.",
+            "tag": "low_projects",
+            "icon": "🛠"
+        })
+    elif projects < THRESHOLDS["projects"]["low"]:
+        weaknesses.append({
+            "field": "low_projects",
+            "label": "Insufficient Projects",
+            "severity": "MEDIUM",
+            "actual_value": projects,
+            "threshold": THRESHOLDS["projects"]["low"],
+            "message": f"Only {projects} project(s). Aim for 3+ projects to stand out in technical rounds.",
+            "improvement_hint": "Build 1 domain-specific project and upload it to GitHub with a good README.",
+            "tag": "low_projects",
+            "icon": "🛠"
+        })
+
+    # ----------------------------------------------------------------- Workshops / Certifications
+    if workshops == 0:
+        weaknesses.append({
+            "field": "low_certifications",
+            "label": "No Certifications",
+            "severity": "MEDIUM",
+            "actual_value": 0,
+            "threshold": 1,
