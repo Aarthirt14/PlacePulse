@@ -90,3 +90,26 @@ def suggest_projects(
             pid = project.get("id", project.get("title"))
             if pid not in seen_ids:
                 seen_ids.add(pid)
+                enriched = dict(project)
+                enriched["category_key"] = cat_key
+                enriched["category_label"] = cat.get("label", cat_key)
+                enriched["category_icon"] = cat.get("icon", "🛠")
+                results.append(enriched)
+            if len(results) >= max_results:
+                break
+        if len(results) >= max_results:
+            break
+
+    return results
+
+
+def get_all_categories() -> list[dict]:
+    """Return all project categories with metadata (for browsing page)."""
+    data = _load_data()
+    cats = []
+    for key, val in data.get("categories", {}).items():
+        cats.append({
+            "key": key,
+            "label": val.get("label", key),
+            "icon": val.get("icon", "🛠"),
+            "count": len(val.get("projects", [])),
