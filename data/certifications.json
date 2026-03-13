@@ -84,3 +84,46 @@
       ]
     },
     "udemy": {
+      "name": "Udemy",
+      "logo": "📚",
+      "url": "https://udemy.com",
+      "description": "Affordable practical courses with lifetime access. Best for hands-on skill building.",
+      "cost": "₹399–₹599 during sale",
+      "recognized_by": "Supplemental — great for skill proof on resume",
+      "courses": [
+        {
+          "title": "The Complete Python Bootcamp",
+          "duration": "22 hours",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_aptitude", "low_projects"],
+          "reason": "Most comprehensive Python course, builds full project portfolio"
+        },
+        {
+          "title": "Machine Learning A-Z: Python & R",
+          "duration": "44 hours",
+          "difficulty": "Intermediate",
+          "skill_tags": ["low_projects"],
+          "reason": "25+ ML projects to add to GitHub and resume"
+        },
+        {
+          "title": "The Web Developer Bootcamp",
+          "duration": "67 hours",
+          "difficulty": "Beginner-Intermediate",
+          "skill_tags": ["low_projects", "low_experience"],
+          "reason": "Covers HTML, CSS, JS, Node.js — a complete full-stack foundation"
+        },
+        {
+          "title": "100 Days of Code: Python Pro Bootcamp",
+          "duration": "60 hours",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_projects", "low_aptitude"],
+          "reason": "100 daily mini-projects prove consistency and hands-on skill"
+        },
+        {
+          "title": "Communication Skills Masterclass",
+          "duration": "8 hours",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_soft_skills"],
+          "reason": "Targeted for HR interviews, GD rounds, and workplace communication"
+        }
+      ]
