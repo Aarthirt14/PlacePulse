@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Skill Analysis – PlaceIQ{% endblock %}
+{% block page_title %}Employability Dimensions{% endblock %}
+{% block page_sub %}Understanding the 6 pillars of placement readiness{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:26px">
+    <div class="card-title">🧠 The Employability Framework</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:20px;margin-top:10px">
+        {% for low, high, label, color, icon in bands %}
+        <div style="padding:18px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;border-left:4px solid {{ color }}">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                <span style="font-size:22px">{{ icon }}</span>
+                <span style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase">Band {{ loop.index }}</span>
