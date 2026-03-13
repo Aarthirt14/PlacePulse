@@ -93,3 +93,22 @@
     </div>
 </div>
 
+<script>
+function analyzeGoal() {
+    const target = document.getElementById('goal-range').value;
+    const resultDiv = document.getElementById('goal-result');
+    const tipDiv = document.getElementById('goal-tip');
+    
+    // In a real app, logic would be more complex
+    const tips = [
+        "To reach " + target + "%, focus on adding 2 high-quality projects to your resume.",
+        "To reach " + target + "%, you need to increase your aptitude score by at least " + Math.round((target-50)*0.8) + " points.",
+        "To reach " + target + "%, clear any active backlogs and aim for a CGPA above 7.5.",
+        "To reach " + target + "%, complete an internship and earn a professional certification."
+    ];
+    
+    tipDiv.textContent = tips[Math.floor(Math.random() * tips.length)];
+    resultDiv.style.display = 'block';
+}
+
+document.getElementById('goal-range').addEventListener('input', (e) => {
