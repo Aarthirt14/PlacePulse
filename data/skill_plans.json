@@ -358,3 +358,75 @@
       "target": "Add 3 quality projects to your portfolio in 6 weeks",
       "total_weeks": 6,
       "weeks": [
+        {
+          "week": 1,
+          "theme": "Pick Your Projects",
+          "focus": "Planning",
+          "tasks": [
+            "Choose 3 project ideas from the PlaceIQ Project Suggestions page",
+            "Create GitHub account and learn basic Git commands (push, pull, commit)",
+            "Watch a 'How to build a portfolio project' YouTube video",
+            "Set up your development environment (VS Code, Python, etc.)"
+          ],
+          "goal": "Have 3 project ideas chosen and GitHub account ready"
+        },
+        {
+          "week": 2,
+          "theme": "Build Project 1 (Mini)",
+          "focus": "Quick Win",
+          "tasks": [
+            "Build your simplest project first — aim for a working prototype in 5 days",
+            "Push all code to GitHub daily — commit with descriptive messages",
+            "Add a README.md with screenshot, what the project does, and how to run it",
+            "Show it to 1 friend or mentor for feedback"
+          ],
+          "goal": "Project 1 live on GitHub with README"
+        },
+        {
+          "week": 3,
+          "theme": "Build Project 2 (Intermediate)",
+          "focus": "Core Skill Demo",
+          "tasks": [
+            "Build an intermediate project related to your stream/target role",
+            "Add a demo GIF or screenshot to README",
+            "Deploy project online (Heroku, Render, or Vercel — all free)",
+            "Write a short LinkedIn post about what you built"
+          ],
+          "goal": "Project 2 live on GitHub + deployed online"
+        },
+        {
+          "week": 4,
+          "theme": "Build Project 3 (Impactful)",
+          "focus": "Resume-Level Project",
+          "tasks": [
+            "Build a project that solves a real problem — bonus if domain-specific",
+            "Add data visualizations, API integration, or ML model to increase complexity",
+            "Record a 2-minute demo video and upload to LinkedIn",
+            "Submit project to a relevant GitHub topic to increase visibility"
+          ],
+          "goal": "Project 3 live with demo video on LinkedIn"
+        },
+        {
+          "week": 5,
+          "theme": "Portfolio Integration",
+          "focus": "Showcasing Your Work",
+          "tasks": [
+            "Update LinkedIn with all 3 projects in the 'Projects' section",
+            "Add projects to your resume under a 'Projects' section with 2-3 bullet points each",
+            "Get at least 2 GitHub stars by sharing projects in relevant forums or Reddit",
+            "Connect with recruiters on LinkedIn and mention your project work"
+          ],
+          "goal": "All 3 projects visible on LinkedIn and resume"
+        },
+        {
+          "week": 6,
+          "theme": "Interview Preparation",
+          "focus": "Explain Your Projects",
+          "tasks": [
+            "Practice explaining each project in 2 minutes: What? Why? How? Results?",
+            "Prepare for common questions: 'What challenges did you face?', 'What would you improve?'",
+            "Review the code you wrote — be ready to explain every function",
+            "Add 1 more feature/improvement to your best project"
+          ],
+          "goal": "Confidently present all 3 projects in any interview"
+        }
