@@ -1,0 +1,41 @@
+{
+  "categories": {
+    "machine_learning": {
+      "label": "Machine Learning & AI",
+      "icon": "🤖",
+      "weakness_tags": ["low_aptitude", "low_projects", "low_experience"],
+      "projects": [
+        {
+          "id": "ml_01",
+          "title": "Student Placement Predictor",
+          "description": "Build an ML model that predicts student placement probability using real college data. Train Logistic Regression, Random Forest, and evaluate with confusion matrix.",
+          "difficulty": "Beginner",
+          "duration": "2 weeks",
+          "tech_stack": ["Python", "scikit-learn", "pandas", "matplotlib"],
+          "skills_gained": ["Data preprocessing", "Model training", "Evaluation metrics"],
+          "github_search": "placement prediction machine learning"
+        },
+        {
+          "id": "ml_02",
+          "title": "Resume Screening System",
+          "description": "NLP-based system that automatically screens resumes and ranks candidates by job relevance using TF-IDF and cosine similarity.",
+          "difficulty": "Intermediate",
+          "duration": "3 weeks",
+          "tech_stack": ["Python", "NLTK", "scikit-learn", "Flask"],
+          "skills_gained": ["NLP", "Text processing", "Web deployment"],
+          "github_search": "resume screening nlp python"
+        },
+        {
+          "id": "ml_03",
+          "title": "Fake News Detector",
+          "description": "Binary text classification using BERT or Logistic Regression on the LIAR dataset. Deploy as a REST API.",
+          "difficulty": "Intermediate",
+          "duration": "3 weeks",
+          "tech_stack": ["Python", "Transformers", "Flask", "pandas"],
+          "skills_gained": ["NLP", "Transformers", "API design"],
+          "github_search": "fake news detection python bert"
+        },
+        {
+          "id": "ml_04",
+          "title": "Crop Yield Prediction",
+          "description": "Predict crop yield using weather and soil data. A great project for showcasing regression and feature engineering skills.",
