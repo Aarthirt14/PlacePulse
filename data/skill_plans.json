@@ -286,3 +286,75 @@
           "week": 4,
           "theme": "Professional Polish",
           "focus": "Email, LinkedIn, Body Language",
+          "tasks": [
+            "Learn professional email writing — practice writing 3 emails/day",
+            "Improve LinkedIn profile with recommendations and endorsements",
+            "Practice confident body language: eye contact, posture, handshake",
+            "Do a final mock interview with a friend or career counselor"
+          ],
+          "goal": "Be interview-ready across verbal, written, and body language"
+        }
+      ]
+    },
+    "backlogs": {
+      "title": "Backlog Clearing Strategy",
+      "icon": "📖",
+      "target": "Clear all backlogs in next 60 days",
+      "total_weeks": 8,
+      "weeks": [
+        {
+          "week": 1,
+          "theme": "Understand the Backlog Damage",
+          "focus": "Eligibility Research",
+          "tasks": [
+            "Research: which companies filter by backlog count at placement drives?",
+            "Check your current semester regulations — what's the deadline to clear?",
+            "Talk to faculty in charge of supplementary exams",
+            "List all pending backlog subjects with their exam dates"
+          ],
+          "goal": "Have a clear plan for clearing all backlogs before placement season"
+        },
+        {
+          "week": 2,
+          "theme": "Prioritize High-Weightage Subjects",
+          "focus": "Targeted Study",
+          "tasks": [
+            "Identify which backlog subjects are easiest to pass quickly",
+            "Download previous 5 years question papers for each subject",
+            "Focus only on high-probability exam questions — 80/20 rule",
+            "Watch YouTube lectures for fundamental concepts (1.5x speed)"
+          ],
+          "goal": "Study plan created for each backlog subject"
+        },
+        {
+          "week": 3,
+          "theme": "Intensive Revision",
+          "focus": "Core Topics Only",
+          "tasks": [
+            "Spend 4-5 hours/day on backlog subjects — group study if beneficial",
+            "Solve past papers under timed conditions",
+            "Create concise note cards for formulas, key definitions",
+            "Talk to seniors who've cleared the same backlogs for tips"
+          ],
+          "goal": "Cover 80% of syllabus for at least 1 backlog subject"
+        },
+        {
+          "week": 4,
+          "theme": "Mock Exam Simulation",
+          "focus": "Exam Strategy",
+          "tasks": [
+            "Simulate exam conditions: sit for 3 hours with only your notes excluded",
+            "Grade yourself honestly using answer keys or faculty help",
+            "Identify patterns in your errors and revise those topics",
+            "Prepare exam strategy: which questions to attempt first"
+          ],
+          "goal": "Ready to appear in supplementary/backlog exams"
+        }
+      ]
+    },
+    "low_projects": {
+      "title": "Project Portfolio Builder Plan",
+      "icon": "🛠",
+      "target": "Add 3 quality projects to your portfolio in 6 weeks",
+      "total_weeks": 6,
+      "weeks": [
