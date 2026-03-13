@@ -160,3 +160,57 @@
 const result = JSON.parse(sessionStorage.getItem('prediction_result') || 'null');
 
 if (result) {
+    document.getElementById('result-content').style.display = 'block';
+    document.getElementById('no-result').style.display = 'none';
+
+    const prob = result.probability;
+    const isPlaced = result.prediction === 'Placed';
+    const catColor = result.category_color || (isPlaced ? '#34d399' : '#fb7185');
+
+    const hero = document.getElementById('result-hero');
+    if (result.category === 'High Chance') hero.classList.add('placed');
+    else if (result.category === 'Low Chance') hero.classList.add('not-placed');
+    else hero.classList.add('medium');
+
+    document.getElementById('prob-val').textContent = prob + '%';
+    document.getElementById('prob-val').style.color = catColor;
+    document.getElementById('result-verdict').textContent = result.category_icon + ' ' + result.prediction;
+    document.getElementById('result-student').textContent = 'Student: ' + result.student_name;
+
+    const badges = document.getElementById('result-badges');
+    badges.innerHTML = `
+        <span class="result-badge" style="background:${catColor}22;color:${catColor};border:1px solid ${catColor}44">${result.category}</span>
+        <span class="result-badge tag-amber">Risk: ${result.risk_score}/100</span>
+        <span class="result-badge tag-blue">Model: ${result.model_used}</span>
+    `;
+
+    // Ring chart
+    const ringCtx = document.getElementById('prob-ring-canvas').getContext('2d');
+    new Chart(ringCtx, {
+        type: 'doughnut',
+        data: { datasets: [{ data: [prob, 100-prob], backgroundColor: [catColor, 'rgba(255,255,255,.05)'], borderWidth: 0, borderRadius: 4 }] },
+        options: { cutout: '76%', plugins: { legend: { display: false }, tooltip: { enabled: false } }, animation: { duration: 1000 } }
+    });
+
+    // Risk gauge
+    const risk = result.risk_score;
+    document.getElementById('risk-val').textContent = risk;
+    const riskColor = risk > 65 ? '#fb7185' : risk > 35 ? '#fbbf24' : '#34d399';
+    document.getElementById('risk-val').style.color = riskColor;
+    const riskCtx = document.getElementById('risk-chart').getContext('2d');
+    new Chart(riskCtx, {
+        type: 'doughnut',
+        data: { datasets: [{ data: [risk, 100-risk], backgroundColor: [riskColor, 'rgba(255,255,255,.05)'], borderWidth: 0 }] },
+        options: { cutout: '72%', rotation: -90, circumference: 180, plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+    });
+
+    // SHAP bars
+    if (result.feature_importance) {
+        const fi = result.feature_importance;
+        const entries = Object.entries(fi).sort((a,b) => b[1]-a[1]).slice(0,6);
+        const max = entries[0]?.[1] || 1;
+        document.getElementById('shap-bars').innerHTML = entries.map(([name, val]) => `
+            <div class="shap-bar-item">
+                <div class="shap-label">${name.replace(/_/g,' ')}</div>
+                <div class="shap-track">
+                    <div class="shap-fill-pos" style="width:${(val/max)*45}%"></div>
