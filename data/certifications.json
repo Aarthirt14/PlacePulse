@@ -1,0 +1,43 @@
+{
+  "platforms": {
+    "nptel": {
+      "name": "NPTEL",
+      "logo": "🎓",
+      "url": "https://nptel.ac.in",
+      "description": "IIT & IISc courses with government certification. Highly valued by Indian recruiters.",
+      "cost": "Free (exam fee ₹1000)",
+      "recognized_by": "All major Indian companies and PSUs",
+      "courses": [
+        {
+          "title": "Programming in Python",
+          "duration": "8 weeks",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_aptitude", "low_projects"],
+          "reason": "Builds strong Python fundamentals needed for most tech roles"
+        },
+        {
+          "title": "Introduction to Machine Learning",
+          "duration": "12 weeks",
+          "difficulty": "Intermediate",
+          "skill_tags": ["low_projects", "low_aptitude"],
+          "reason": "IIT-level ML cert that stands out on resumes"
+        },
+        {
+          "title": "Database Management Systems",
+          "duration": "8 weeks",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_projects", "low_experience"],
+          "reason": "DBMS is tested in almost every placement aptitude round"
+        },
+        {
+          "title": "Data Structures and Algorithms (DSA)",
+          "duration": "8 weeks",
+          "difficulty": "Intermediate",
+          "skill_tags": ["low_aptitude", "low_cgpa"],
+          "reason": "Core skill for technical interviews at product companies"
+        },
+        {
+          "title": "Soft Skills for Placement",
+          "duration": "4 weeks",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_soft_skills"],
