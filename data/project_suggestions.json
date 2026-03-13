@@ -80,3 +80,44 @@
           "duration": "3 weeks",
           "tech_stack": ["Flask", "SQLite", "Bootstrap", "Python"],
           "skills_gained": ["Backend dev", "Database", "PDF generation"],
+          "github_search": "student result management flask python"
+        },
+        {
+          "id": "web_03",
+          "title": "Job Portal Clone",
+          "description": "Build a mini LinkedIn/Naukri clone with job listings, resume upload, and search. Cover authentication, role-based access, and REST APIs.",
+          "difficulty": "Advanced",
+          "duration": "5-6 weeks",
+          "tech_stack": ["React", "Node.js", "MongoDB", "Express"],
+          "skills_gained": ["Full-stack", "REST API", "Auth", "NoSQL"],
+          "github_search": "job portal mern stack"
+        },
+        {
+          "id": "web_04",
+          "title": "E-commerce Product Dashboard",
+          "description": "Build a product management dashboard with charts, inventory tracking, and sales analytics.",
+          "difficulty": "Intermediate",
+          "duration": "3-4 weeks",
+          "tech_stack": ["Django", "Chart.js", "Bootstrap", "PostgreSQL"],
+          "skills_gained": ["Django", "ORM", "Data visualization"],
+          "github_search": "ecommerce dashboard django"
+        }
+      ]
+    },
+    "data_science": {
+      "label": "Data Science & Analytics",
+      "icon": "📊",
+      "weakness_tags": ["low_aptitude", "low_cgpa", "low_projects"],
+      "projects": [
+        {
+          "id": "ds_01",
+          "title": "COVID-19 Data Analysis",
+          "description": "Analyze global COVID-19 data to uncover trends in case fatality rates, vaccination progress, and country comparisons using pandas and Plotly.",
+          "difficulty": "Beginner",
+          "duration": "1-2 weeks",
+          "tech_stack": ["Python", "pandas", "Plotly", "Jupyter"],
+          "skills_gained": ["EDA", "Data visualization", "Storytelling"],
+          "github_search": "covid data analysis python pandas"
+        },
+        {
+          "id": "ds_02",
