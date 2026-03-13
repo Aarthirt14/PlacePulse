@@ -238,3 +238,63 @@ _RECS = {
                 "Placement training bridges the gap between college academics and "
                 "industry expectations. It typically covers aptitude, GD, technical "
                 "interviews, and HR rounds. Missing this is a significant disadvantage."
+            ),
+            "action_items": [
+                "Register for your college TPO's pre-placement training NOW",
+                "Enrol on Internshala Training (Placement Bootcamp)",
+                "Join free sessions by career coaches on YouTube or LinkedIn Live",
+                "Do 1 mock technical interview per week using Pramp.com (free)",
+                "Prepare a 30-second and 2-minute 'Tell me about yourself' answer"
+            ],
+            "resources": [
+                {"name": "Internshala Placement Bootcamp", "url": "https://internshala.com/trainings"},
+                {"name": "Pramp Mock Interviews", "url": "https://pramp.com"},
+                {"name": "Placement Preparation Guide — GeeksforGeeks", "url": "https://geeksforgeeks.org/company-preparation"}
+            ],
+            "estimated_impact": "Medium — improves interview conversion rate significantly",
+            "timeframe": "2–4 weeks"
+        }
+    ]
+}
+
+PRIORITY_MAP = {"CRITICAL": "CRITICAL", "HIGH": "HIGH", "MEDIUM": "MEDIUM", "LOW": "LOW"}
+
+
+def generate_advanced_recommendations(
+    data: dict,
+    probability: float,
+    weaknesses: list[dict] | None = None
+) -> list[dict]:
+    """
+    Generate targeted recommendations based on detected weaknesses.
+
+    Parameters
+    ----------
+    data        : student profile dict
+    probability : placement probability (0–100)
+    weaknesses  : pre-computed weakness list (or None to auto-detect)
+
+    Returns
+    -------
+    list[dict]  – ordered by priority
+    """
+    if weaknesses is None:
+        weaknesses = detect_weaknesses(data)
+
+    recommendations = []
+    seen_categories = set()
+
+    for w in weaknesses:
+        tag = w.get("tag", w.get("field", ""))
+        severity = w["severity"]
+
+        if tag in _RECS:
+            for rec_template in _RECS[tag]:
+                rec = dict(rec_template)
+                rec["priority"] = PRIORITY_MAP.get(severity, "MEDIUM")
+                rec["weakness_ref"] = w["label"]
+                uid = rec["title"]
+                if uid not in seen_categories:
+                    seen_categories.add(uid)
+                    recommendations.append(rec)
+
