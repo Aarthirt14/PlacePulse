@@ -123,3 +123,28 @@ def get_analytics():
     return {
         'total_predictions': total,
         'avg_probability': round(avg_prob, 2),
+        'placed_count': placed,
+        'not_placed_count': total - placed,
+        'avg_risk_score': round(avg_risk, 2),
+        'placement_rate': round((placed / total * 100) if total > 0 else 0, 2)
+    }
+
+def save_model_metrics(metrics_list, best_model):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('DELETE FROM model_metrics')
+    for m in metrics_list:
+        c.execute('''
+            INSERT INTO model_metrics (timestamp, model_name, accuracy, precision_score, recall, f1_score, is_best)
+            VALUES (?,?,?,?,?,?,?)
+        ''', (
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            m['name'], m['accuracy'], m['precision'], m['recall'], m['f1'],
+            1 if m['name'] == best_model else 0
+        ))
+    conn.commit()
+    conn.close()
+
+def get_model_metrics():
+    conn = get_connection()
+    c = conn.cursor()
