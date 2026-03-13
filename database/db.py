@@ -48,3 +48,28 @@ def init_db():
     ''')
     c.execute('''
         CREATE TABLE IF NOT EXISTS improvement_tracker (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp TEXT,
+            student_name TEXT,
+            before_score REAL,
+            after_score REAL,
+            new_prediction TEXT,
+            notes TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+def save_tracker_entry(student_name, before, after, prediction, notes=""):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO improvement_tracker (timestamp, student_name, before_score, after_score, new_prediction, notes)
+        VALUES (?,?,?,?,?,?)
+    ''', (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), student_name, before, after, prediction, notes))
+    conn.commit()
+    conn.close()
+
+def get_tracker_entries():
+    conn = get_connection()
+    c = conn.cursor()
