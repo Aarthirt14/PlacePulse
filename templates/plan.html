@@ -78,3 +78,23 @@
         <div>
             <h2 style="font-size:22px;color:var(--primary)">{{ selected_plan.title }} Roadmap</h2>
             <p style="color:var(--text2);font-size:13.5px">Goal: {{ selected_plan.target }}</p>
+        </div>
+        <div class="tag tag-amber">AI Generated Plan</div>
+    </div>
+
+    <div class="timeline">
+        {% for week in timeline %}
+        <div class="timeline-week">
+            <div class="timeline-dot"></div>
+            <div class="week-card">
+                <div class="week-header">
+                    <div>
+                        <div class="week-num">Week {{ week.week }}</div>
+                        <div class="week-title">{{ week.themes[0] }}</div>
+                    </div>
+                    <div class="week-focus">{{ week.focuses[0] }}</div>
+                </div>
+                <div class="task-list">
+                    {% for task in week.tasks %}
+                    <div class="task-item">
+                        <div class="task-check"></div>
