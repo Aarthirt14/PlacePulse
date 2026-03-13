@@ -67,3 +67,26 @@ def suggest_projects(
     for tag in weakness_tags:
         for cat in _WEAKNESS_CATEGORY_MAP.get(tag, []):
             if cat not in priority_cats:
+                priority_cats.append(cat)
+
+    # Add stream-based categories
+    for cat in _STREAM_CATEGORY_MAP.get(stream_lower, _STREAM_CATEGORY_MAP["computer science"]):
+        if cat not in priority_cats:
+            priority_cats.append(cat)
+
+    # Add any remaining categories
+    for cat in categories:
+        if cat not in priority_cats:
+            priority_cats.append(cat)
+
+    results = []
+    seen_ids = set()
+
+    for cat_key in priority_cats:
+        if cat_key not in categories:
+            continue
+        cat = categories[cat_key]
+        for project in cat.get("projects", []):
+            pid = project.get("id", project.get("title"))
+            if pid not in seen_ids:
+                seen_ids.add(pid)
