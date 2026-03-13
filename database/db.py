@@ -73,3 +73,28 @@ def save_tracker_entry(student_name, before, after, prediction, notes=""):
 def get_tracker_entries():
     conn = get_connection()
     c = conn.cursor()
+    c.execute('SELECT * FROM improvement_tracker ORDER BY timestamp DESC')
+    rows = c.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+def save_prediction(data):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO predictions 
+        (timestamp, student_name, cgpa, internships, projects, workshops,
+         aptitude_score, ssc_marks, hsc_marks, backlogs, probability,
+         risk_score, category, prediction, recommendations, feature_importance)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    ''', (
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        data.get('student_name', 'Anonymous'),
+        data.get('cgpa'), data.get('internships'), data.get('projects'),
+        data.get('workshops'), data.get('aptitude_score'), data.get('ssc_marks'),
+        data.get('hsc_marks'), data.get('backlogs'), data.get('probability'),
+        data.get('risk_score'), data.get('category'), data.get('prediction'),
+        json.dumps(data.get('recommendations', [])),
+        json.dumps(data.get('feature_importance', {}))
+    ))
+    conn.commit()
