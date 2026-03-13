@@ -110,3 +110,59 @@ def detect_weaknesses(data: dict) -> list[dict]:
             "improvement_hint": "Prioritize clearing all backlogs before placement season begins.",
             "tag": "backlogs",
             "icon": "⚠"
+        })
+    elif backlogs >= THRESHOLDS["backlogs"]["any"]:
+        weaknesses.append({
+            "field": "backlogs",
+            "label": "Active Backlog",
+            "severity": "HIGH",
+            "actual_value": backlogs,
+            "threshold": THRESHOLDS["backlogs"]["any"],
+            "message": f"You have {backlogs} backlog. Even 1 backlog eliminates you from many companies.",
+            "improvement_hint": "Clear this backlog at the earliest opportunity — it's blocking placements.",
+            "tag": "backlogs",
+            "icon": "⚠"
+        })
+
+    # ----------------------------------------------------------------- Aptitude
+    if aptitude < THRESHOLDS["aptitude_score"]["critical"]:
+        weaknesses.append({
+            "field": "low_aptitude",
+            "label": "Very Low Aptitude Score",
+            "severity": "CRITICAL",
+            "actual_value": aptitude,
+            "threshold": THRESHOLDS["aptitude_score"]["critical"],
+            "message": f"Aptitude score of {aptitude:.0f}/100 is very low. Companies like TCS, Infosys, Wipro use aptitude as the first filter.",
+            "improvement_hint": "Start practicing quantitative, LR, and verbal aptitude daily.",
+            "tag": "low_aptitude",
+            "icon": "🧠"
+        })
+    elif aptitude < THRESHOLDS["aptitude_score"]["high"]:
+        weaknesses.append({
+            "field": "low_aptitude",
+            "label": "Low Aptitude Score",
+            "severity": "HIGH",
+            "actual_value": aptitude,
+            "threshold": THRESHOLDS["aptitude_score"]["high"],
+            "message": f"Aptitude score of {aptitude:.0f}/100 needs improvement. Target 70+ to pass most company filters.",
+            "improvement_hint": "Use IndiaBix, PrepInsta, and practice 30 questions per day.",
+            "tag": "low_aptitude",
+            "icon": "🧠"
+        })
+    elif aptitude < THRESHOLDS["aptitude_score"]["medium"]:
+        weaknesses.append({
+            "field": "low_aptitude",
+            "label": "Below-Average Aptitude",
+            "severity": "MEDIUM",
+            "actual_value": aptitude,
+            "threshold": THRESHOLDS["aptitude_score"]["medium"],
+            "message": f"Aptitude score {aptitude:.0f}/100 is slightly below average. Aim for 70+ for better shortlisting.",
+            "improvement_hint": "Focus on time-speed-distance, number systems, and logical reasoning.",
+            "tag": "low_aptitude",
+            "icon": "🧠"
+        })
+
+    # ----------------------------------------------------------------- Internships
+    if internships == 0:
+        weaknesses.append({
+            "field": "no_internships",
