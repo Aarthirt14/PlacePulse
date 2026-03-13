@@ -148,3 +148,7 @@ def save_model_metrics(metrics_list, best_model):
 def get_model_metrics():
     conn = get_connection()
     c = conn.cursor()
+    c.execute('SELECT * FROM model_metrics')
+    rows = c.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
