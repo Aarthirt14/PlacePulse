@@ -52,3 +52,21 @@ def generate_skill_plan(weakness_tags: list[str], max_plans: int = 2) -> list[di
     """
     plans = _load_plans()
     result = []
+    seen = set()
+
+    for tag in weakness_tags:
+        plan_key = _TAG_TO_PLAN.get(tag)
+        if plan_key and plan_key not in seen and plan_key in plans:
+            seen.add(plan_key)
+            plan = dict(plans[plan_key])
+            plan["plan_key"] = plan_key
+            result.append(plan)
+        if len(result) >= max_plans:
+            break
+
+    return result
+
+
+def get_all_plan_keys() -> list[dict]:
+    """Return all available plan keys with metadata (for the /plan page listing)."""
+    plans = _load_plans()
