@@ -34,3 +34,21 @@ def get_plan(plan_key: str) -> dict | None:
     """Return a single plan dict by key, or None if not found."""
     plans = _load_plans()
     return plans.get(plan_key)
+
+
+def generate_skill_plan(weakness_tags: list[str], max_plans: int = 2) -> list[dict]:
+    """
+    Generate up to max_plans improvement plans based on weakness tags.
+    Prioritizes plans in order of the weakness severity (tags already sorted).
+
+    Parameters
+    ----------
+    weakness_tags : list[str] from get_weakness_tags(), already severity-ordered
+    max_plans     : max number of plans to return (default 2 for UI clarity)
+
+    Returns
+    -------
+    list[dict] – each dict is a full plan with title, icon, target, weeks list
+    """
+    plans = _load_plans()
+    result = []
