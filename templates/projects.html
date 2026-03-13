@@ -32,3 +32,20 @@
 .tech-stack { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
 .tech-tag { font-size:10.5px; padding:3px 8px; background:rgba(0,0,0,0.2); color:var(--text3); border-radius:5px; border:1px solid var(--border); }
 </style>
+{% endblock %}
+
+{% block content %}
+<div class="project-flex">
+    <!-- Categories Sidebar -->
+    <div class="project-sidebar">
+        <div class="card" style="padding:15px">
+            <div class="card-title" style="margin-bottom:12px">Categories</div>
+            <div class="cat-list">
+                {% for c in categories %}
+                <a href="/projects?cat={{ c.key }}" class="cat-item {% if selected_cat and selected_cat.key == c.key %}active{% endif %}">
+                    <span>{{ c.icon }}</span>
+                    <span>{{ c.label }}</span>
+                    <span class="cat-count">{{ c.count }}</span>
+                </a>
+                {% endfor %}
+            </div>
