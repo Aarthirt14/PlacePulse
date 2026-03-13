@@ -70,3 +70,21 @@ def generate_skill_plan(weakness_tags: list[str], max_plans: int = 2) -> list[di
 def get_all_plan_keys() -> list[dict]:
     """Return all available plan keys with metadata (for the /plan page listing)."""
     plans = _load_plans()
+    return [
+        {
+            "key": k,
+            "title": v.get("title", k),
+            "icon": v.get("icon", "📋"),
+            "target": v.get("target", ""),
+            "total_weeks": v.get("total_weeks", 4)
+        }
+        for k, v in plans.items()
+    ]
+
+
+def generate_combined_timeline(plans: list[dict]) -> list[dict]:
+    """
+    Merge multiple plans into a single deduplicated weekly timeline.
+    Useful for displaying a combined roadmap on the /plan page.
+
+    Returns list of week dicts with combined tasks from all plans.
