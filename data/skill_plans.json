@@ -70,3 +70,75 @@
           "week": 6,
           "theme": "Deep Revision",
           "focus": "Exam Preparation",
+          "tasks": [
+            "Revise all chapters using active recall — no passive reading",
+            "Create topic-wise mind maps for each subject",
+            "Solve 20 MCQs/day from online test portals (TCS NQT, GeeksforGeeks)",
+            "Form a small study group for peer testing"
+          ],
+          "goal": "Complete at least 80% of syllabus revision"
+        },
+        {
+          "week": 7,
+          "theme": "Mock Exam Sprint",
+          "focus": "Full Syllabus Tests",
+          "tasks": [
+            "Take one full-length mock exam per day",
+            "Analyze and correct mistakes within 30 minutes of completing test",
+            "Focus on speed + accuracy — manage time per question",
+            "Revise weak chapters based on mock results"
+          ],
+          "goal": "Score 70%+ in mock exams consistently"
+        },
+        {
+          "week": 8,
+          "theme": "Exam Week",
+          "focus": "Light Revision + Confidence",
+          "tasks": [
+            "No new topics — only revision of already-studied material",
+            "Sleep 7-8 hours — critical for memory consolidation",
+            "Read your cheatsheets and formula lists daily",
+            "Visualize scoring high and stay calm"
+          ],
+          "goal": "Perform at peak in actual examinations"
+        }
+      ]
+    },
+    "low_aptitude": {
+      "title": "Aptitude Mastery Plan",
+      "icon": "🧠",
+      "target": "Score 75+ in aptitude tests",
+      "total_weeks": 6,
+      "weeks": [
+        {
+          "week": 1,
+          "theme": "Aptitude Audit",
+          "focus": "Find Weak Areas",
+          "tasks": [
+            "Take a full TCS NQT diagnostic test online",
+            "Identify which sections you're weakest in: Quant, LR, or Verbal?",
+            "Bookmark IndiaBix.com and set daily goal of 30 questions",
+            "Download free aptitude app (Pocket Aptitude or PrepInsta)"
+          ],
+          "goal": "Know your current aptitude baseline score"
+        },
+        {
+          "week": 2,
+          "theme": "Quantitative Foundations",
+          "focus": "Numbers & Math",
+          "tasks": [
+            "Study: Number System, LCM/HCF, Percentage, Profit/Loss",
+            "Solve 20 quant problems daily on IndiaBix",
+            "Learn shortcut tricks for multiplication, division, and squares",
+            "Watch R.S. Aggarwal topic videos on YouTube"
+          ],
+          "goal": "Achieve 70% accuracy in Quant fundamentals"
+        },
+        {
+          "week": 3,
+          "theme": "Core Quant Topics",
+          "focus": "Time, Work & Speed",
+          "tasks": [
+            "Study: Time & Work, Speed-Distance-Time, Mixtures, Ratios",
+            "Solve 25 problems/day across these topics",
+            "Take 1 timed quant mini-test (20 questions in 15 minutes)",
