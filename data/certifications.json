@@ -170,3 +170,46 @@
       "name": "Kaggle",
       "logo": "🏆",
       "url": "https://kaggle.com/learn",
+      "description": "Free, bite-sized ML courses with hands-on notebooks. Kaggle profile acts as a live portfolio.",
+      "cost": "100% Free",
+      "recognized_by": "Data science, analytics, and AI roles globally",
+      "courses": [
+        {
+          "title": "Python",
+          "duration": "5 hours",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_aptitude", "low_projects"],
+          "reason": "Quick start for Python with runnable notebooks — free certificate"
+        },
+        {
+          "title": "Intro to Machine Learning",
+          "duration": "3 hours",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_projects"],
+          "reason": "Build your first ML model in under 3 hours — instantly deployable"
+        },
+        {
+          "title": "Intermediate Machine Learning",
+          "duration": "4 hours",
+          "difficulty": "Intermediate",
+          "skill_tags": ["low_projects", "low_aptitude"],
+          "reason": "Feature engineering, XGBoost, cross-validation — interview staples"
+        },
+        {
+          "title": "SQL",
+          "duration": "3 hours",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_aptitude", "low_cgpa"],
+          "reason": "SQL is tested in 80% of company aptitude tests — free with certificate"
+        },
+        {
+          "title": "Data Visualization",
+          "duration": "4 hours",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_projects"],
+          "reason": "Seaborn + Plotly skills that make your projects stand out"
+        }
+      ]
+    },
+    "hackathons": {
+      "name": "Hackathons & Competitions",
