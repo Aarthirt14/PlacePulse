@@ -222,3 +222,59 @@
     <div class="sidebar-logo">
         <div class="logo-badge">🎓</div>
         <div class="logo-info">
+            <div class="logo-name">PlaceIQ</div>
+            <div class="logo-sub">AI Placement System</div>
+        </div>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-label">Main</div>
+        <a href="/" class="nav-item {% if request.endpoint=='index' %}active{% endif %}">
+            <span class="nav-icon">⬡</span> Home
+        </a>
+        <a href="/predict" class="nav-item {% if request.endpoint in ['predict_page','predict_api'] %}active{% endif %}">
+            <span class="nav-icon">◈</span> Predict
+        </a>
+        <a href="/dashboard" class="nav-item {% if request.endpoint=='dashboard' %}active{% endif %}">
+            <span class="nav-icon">⊞</span> Dashboard
+        </a>
+        <a href="/analytics" class="nav-item {% if request.endpoint=='analytics_page' %}active{% endif %}">
+            <span class="nav-icon">⟡</span> Analytics
+        </a>
+        <a href="/history" class="nav-item {% if request.endpoint=='history_page' %}active{% endif %}">
+            <span class="nav-icon">⊙</span> History
+        </a>
+        <a href="/upload" class="nav-item {% if request.endpoint=='upload_page' %}active{% endif %}">
+            <span class="nav-icon">⤒</span> Upload Data
+        </a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-label">Career Intelligence</div>
+        <a href="/improvement" class="nav-item {% if request.endpoint=='improvement_hub' %}active{% endif %}">
+            <span class="nav-icon">✨</span> Improvement Hub
+        </a>
+        <a href="/plan" class="nav-item {% if request.endpoint=='plan_page' %}active{% endif %}">
+            <span class="nav-icon">📋</span> Career Plan
+        </a>
+        <a href="/suggestions" class="nav-item {% if request.endpoint=='suggestions_page' %}active{% endif %}">
+            <span class="nav-icon">💡</span> Suggestions
+        </a>
+        <a href="/mentor" class="nav-item {% if request.endpoint=='mentor_dashboard' %}active{% endif %}">
+            <span class="nav-icon">👨‍🏫</span> Mentor Panel
+        </a>
+    </div>
+
+    <div class="nav-section" style="margin-top:10px">
+        <div class="nav-label">Export</div>
+        <a href="/export/predictions" class="nav-item">
+            <span class="nav-icon">↓</span> Export CSV
+        </a>
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="status-badge">
+            <div class="status-dot" id="status-dot"></div>
+            <span id="status-text">Checking model...</span>
+        </div>
+    </div>
