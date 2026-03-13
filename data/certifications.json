@@ -41,3 +41,46 @@
           "duration": "4 weeks",
           "difficulty": "Beginner",
           "skill_tags": ["low_soft_skills"],
+          "reason": "Improves communication, interview readiness and group discussion skills"
+        }
+      ]
+    },
+    "coursera": {
+      "name": "Coursera",
+      "logo": "🌐",
+      "url": "https://coursera.org",
+      "description": "University-backed courses from top institutions like Google, IBM, Stanford, and DeepLearning.AI.",
+      "cost": "Audit free / Certificate paid (Financial aid available)",
+      "recognized_by": "MNC, startups, global companies",
+      "courses": [
+        {
+          "title": "Google Data Analytics Professional Certificate",
+          "duration": "6 months",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_aptitude", "low_projects"],
+          "reason": "Google-backed, directly hirable certificate for analytics roles"
+        },
+        {
+          "title": "IBM Data Science Professional Certificate",
+          "duration": "5 months",
+          "difficulty": "Beginner-Intermediate",
+          "skill_tags": ["low_projects", "low_experience"],
+          "reason": "10-course IBM badge covering Python, SQL, ML, and capstone project"
+        },
+        {
+          "title": "Deep Learning Specialization (DeepLearning.AI)",
+          "duration": "3 months",
+          "difficulty": "Advanced",
+          "skill_tags": ["low_projects", "low_aptitude"],
+          "reason": "Andrew Ng's course — the gold standard for AI/ML interviews globally"
+        },
+        {
+          "title": "Python for Everybody (University of Michigan)",
+          "duration": "2 months",
+          "difficulty": "Beginner",
+          "skill_tags": ["low_aptitude", "low_cgpa"],
+          "reason": "Perfect starting point for students with weak programming fundamentals"
+        }
+      ]
+    },
+    "udemy": {
