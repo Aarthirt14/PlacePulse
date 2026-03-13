@@ -298,3 +298,63 @@ def generate_advanced_recommendations(
                     seen_categories.add(uid)
                     recommendations.append(rec)
 
+    # Add probability-based general recs
+    if probability < 40 and len(recommendations) < 5:
+        recommendations.append({
+            "title": "Focus on Quick Wins First",
+            "category": "Strategy",
+            "icon": "⚡",
+            "priority": "HIGH",
+            "description": (
+                "With a placement probability below 40%, focus on quick-impact changes: "
+                "clear backlogs, add 1 project, and practice aptitude daily. This can "
+                "shift your probability into the 50–70% range within 6–8 weeks."
+            ),
+            "action_items": [
+                "Address CRITICAL weaknesses first (backlogs, CGPA, aptitude)",
+                "Build 1 portfolio project this week",
+                "Apply to any 1 internship today on Internshala",
+                "Practice 30 aptitude questions per day on IndiaBix"
+            ],
+            "resources": [{"name": "PlaceIQ Improvement Hub", "url": "/improvement"}],
+            "estimated_impact": "High — compound effect of fixing multiple weak areas",
+            "timeframe": "6–8 weeks"
+        })
+    elif probability >= 70:
+        recommendations.append({
+            "title": "Polish & Differentiate",
+            "category": "Strategy",
+            "icon": "✦",
+            "priority": "LOW",
+            "description": (
+                "Your profile is already strong! Focus on differentiation: "
+                "advanced certifications, an impactful capstone project, "
+                "and practising for product company interviews (DSA + System Design)."
+            ),
+            "action_items": [
+                "Solve 3 LeetCode problems daily (Easy → Medium → Hard)",
+                "Attempt 1 Kaggle competition for real-world ML experience",
+                "Write 2 technical articles on Medium or LinkedIn to build personal brand",
+                "Apply to top-tier companies and off-campus openings"
+            ],
+            "resources": [
+                {"name": "LeetCode", "url": "https://leetcode.com"},
+                {"name": "Kaggle Competitions", "url": "https://kaggle.com/competitions"}
+            ],
+            "estimated_impact": "Medium — fine-tuning an already strong profile",
+            "timeframe": "4–6 weeks"
+        })
+
+    return recommendations
+
+
+def get_quick_wins(weaknesses: list[dict]) -> list[dict]:
+    """Return top 3 fastest-impact actions from weaknesses."""
+    quick = []
+    for w in weaknesses[:3]:
+        tag = w.get("tag", "")
+        if tag in _RECS:
+            rec = _RECS[tag][0]
+            quick.append({
+                "title": rec["title"],
+                "icon": rec["icon"],
