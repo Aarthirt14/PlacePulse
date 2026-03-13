@@ -122,3 +122,34 @@ def compute_employability_score(data: dict) -> dict:
         "discipline": _discipline_score(data),
     }
 
+    weighted = sum(dims[d] * DIMENSION_WEIGHTS[d] for d in dims)
+    total = round(_clamp(weighted), 1)
+    band  = _get_band(total)
+
+    # Build dimension display
+    dim_labels = {
+        "academics":  ("Academics",            "🎓"),
+        "experience": ("Experience",           "💼"),
+        "aptitude":   ("Aptitude",             "🧠"),
+        "skills":     ("Communication Skills", "🗣"),
+        "activities": ("Certifications",       "📜"),
+        "discipline": ("Academic Discipline",  "📖"),
+    }
+
+    dimension_display = {}
+    for key, val in dims.items():
+        label, icon = dim_labels[key]
+        b = _get_band(val)
+        dimension_display[key] = {
+            "label":   label,
+            "icon":    icon,
+            "score":   val,
+            "weight":  int(DIMENSION_WEIGHTS[key] * 100),
+            "band":    b["label"],
+            "color":   b["color"],
+        }
+
+    # Find weakest dimension for tip
+    weakest_key = min(dims, key=dims.get)
+    weakest_label = dim_labels[weakest_key][0]
+
