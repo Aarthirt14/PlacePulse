@@ -316,3 +316,4 @@ def pdf_available() -> bool:
         import reportlab  # noqa: F401
         return True
     except ImportError:
+        return False
