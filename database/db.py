@@ -98,3 +98,28 @@ def save_prediction(data):
         json.dumps(data.get('feature_importance', {}))
     ))
     conn.commit()
+    conn.close()
+
+def get_all_predictions():
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('SELECT * FROM predictions ORDER BY timestamp DESC')
+    rows = c.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+def get_analytics():
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('SELECT COUNT(*) FROM predictions')
+    total = c.fetchone()[0]
+    c.execute('SELECT AVG(probability) FROM predictions')
+    avg_prob = c.fetchone()[0] or 0
+    c.execute("SELECT COUNT(*) FROM predictions WHERE prediction='Placed'")
+    placed = c.fetchone()[0]
+    c.execute('SELECT AVG(risk_score) FROM predictions')
+    avg_risk = c.fetchone()[0] or 0
+    conn.close()
+    return {
+        'total_predictions': total,
+        'avg_probability': round(avg_prob, 2),
