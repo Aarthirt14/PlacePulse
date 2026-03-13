@@ -358,3 +358,7 @@ def get_quick_wins(weaknesses: list[dict]) -> list[dict]:
             quick.append({
                 "title": rec["title"],
                 "icon": rec["icon"],
+                "action": rec["action_items"][0] if rec["action_items"] else "Take action now",
+                "severity": w["severity"]
+            })
+    return quick
