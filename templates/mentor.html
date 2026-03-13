@@ -70,3 +70,21 @@
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.05)">
                         <span style="font-size:13.5px;color:var(--text2)">{{ label }}</span>
                         <span class="tag tag-amber">{{ count }} Students</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">⭐ Top Performers</div>
+                <div class="student-list" style="max-height:200px">
+                    {% for s in top_students %}
+                    <div class="student-card top">
+                        <div style="font-size:14px;font-weight:700;color:var(--text)">{{ s.student_name }}</div>
+                        <div class="score-chip" style="color:var(--emerald);border-color:var(--emerald)">{{ s.probability|round|int }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
