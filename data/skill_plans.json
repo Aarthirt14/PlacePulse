@@ -1,0 +1,72 @@
+{
+  "plans": {
+    "low_cgpa": {
+      "title": "Academic Recovery Plan",
+      "icon": "🎓",
+      "target": "Raise CGPA above 7.5",
+      "total_weeks": 8,
+      "weeks": [
+        {
+          "week": 1,
+          "theme": "Diagnose & Plan",
+          "focus": "CGPA Improvement",
+          "tasks": [
+            "List all subjects with low marks and identify recurring weak topics",
+            "Request previous year question papers from faculty/seniors",
+            "Create a subject-wise study timetable with daily 3-hour blocks",
+            "Join a subject-specific study group or find a peer tutor"
+          ],
+          "goal": "Have a clear map of what to study and a working timetable"
+        },
+        {
+          "week": 2,
+          "theme": "Foundation Repair",
+          "focus": "Core Concepts",
+          "tasks": [
+            "Re-study Chapter 1 fundamentals of your weakest 2 subjects",
+            "Watch NPTEL/YouTube lectures at 1.5x speed for concept clarity",
+            "Solve 10 basic problems per subject daily",
+            "Take handwritten notes — proven to improve retention by 40%"
+          ],
+          "goal": "Clear conceptual doubts in at least 1 subject"
+        },
+        {
+          "week": 3,
+          "theme": "Practice Mode ON",
+          "focus": "Previous Year Paper Solving",
+          "tasks": [
+            "Solve 5 years of previous exam papers for 2 subjects",
+            "Time yourself — simulate actual exam conditions",
+            "Review wrong answers immediately and note the concept gap",
+            "Prepare a 1-page formula/shortcut cheatsheet per subject"
+          ],
+          "goal": "Attempt at least 3 full mock papers"
+        },
+        {
+          "week": 4,
+          "theme": "Faculty Engagement",
+          "focus": "Targeted Help",
+          "tasks": [
+            "Visit professors during office hours — ask specific questions",
+            "Request internal test re-evaluation if marks were unfair",
+            "Complete all pending assignments and lab records",
+            "Submit extra assignments or project work to improve internal marks"
+          ],
+          "goal": "Secure maximum internal/continuous assessment marks"
+        },
+        {
+          "week": 5,
+          "theme": "Project Submission",
+          "focus": "Internal Score Boost",
+          "tasks": [
+            "Submit a mini-project or add-on assignment to show initiative",
+            "Participate in department seminars and note attendance-linked marks",
+            "Review your current internal marks and calculate required end-sem score",
+            "Focus heavy revision on high-weightage chapters"
+          ],
+          "goal": "Know exact score needed from end-sem exam"
+        },
+        {
+          "week": 6,
+          "theme": "Deep Revision",
+          "focus": "Exam Preparation",
