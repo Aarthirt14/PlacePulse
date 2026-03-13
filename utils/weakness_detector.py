@@ -278,3 +278,59 @@ def detect_weaknesses(data: dict) -> list[dict]:
             "improvement_hint": "Focus on compensating with strong CGPA and more projects.",
             "tag": "low_cgpa",
             "icon": "📚"
+        })
+
+    if hsc < THRESHOLDS["hsc_marks"]["critical"]:
+        weaknesses.append({
+            "field": "low_academic",
+            "label": "Low HSC Marks",
+            "severity": "MEDIUM",
+            "actual_value": hsc,
+            "threshold": THRESHOLDS["hsc_marks"]["critical"],
+            "message": f"HSC marks ({hsc:.1f}%) are low. Some companies use 10+2 marks as secondary filter.",
+            "improvement_hint": "Strengthen your profile with certs and projects to compensate.",
+            "tag": "low_cgpa",
+            "icon": "📚"
+        })
+
+    # ----------------------------------------------------------------- Extracurriculars
+    if extracurr in ("no", "0", "false", "none"):
+        weaknesses.append({
+            "field": "no_extracurriculars",
+            "label": "No Extracurricular Activities",
+            "severity": "LOW",
+            "actual_value": 0,
+            "threshold": 1,
+            "message": "No extracurricular activities. Clubs, sports, and competitions show leadership and teamwork.",
+            "improvement_hint": "Join a technical club, participate in hackathons, or volunteer for college events.",
+            "tag": "no_extracurriculars",
+            "icon": "🏅"
+        })
+
+    # ----------------------------------------------------------------- Placement Training
+    if placement_tr in ("no", "0", "false", "none"):
+        weaknesses.append({
+            "field": "no_training",
+            "label": "No Placement Training",
+            "severity": "LOW",
+            "actual_value": 0,
+            "threshold": 1,
+            "message": "You have not attended placement training. Training bridges the gap between academics and industry expectations.",
+            "improvement_hint": "Attend your college TPO pre-placement training or enrol in an online bootcamp.",
+            "tag": "no_training",
+            "icon": "🎯"
+        })
+
+    # Sort by severity
+    weaknesses.sort(key=lambda w: SEVERITY_ORDER.get(w["severity"], 99))
+    return weaknesses
+
+
+def weakness_summary(weaknesses: list[dict]) -> dict:
+    """Return a counts-by-severity summary dict."""
+    summary = {"CRITICAL": 0, "HIGH": 0, "MEDIUM": 0, "LOW": 0, "total": len(weaknesses)}
+    for w in weaknesses:
+        summary[w["severity"]] = summary.get(w["severity"], 0) + 1
+    return summary
+
+
