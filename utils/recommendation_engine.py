@@ -58,3 +58,63 @@ _RECS = {
                 "Register for supplementary exams immediately if registration is open"
             ],
             "resources": [
+                {"name": "PlaceIQ Backlog Clearing Plan", "url": "/plan?skill=backlogs"},
+                {"name": "Previous Year Papers — StudyChaCha", "url": "https://studychacha.com"}
+            ],
+            "estimated_impact": "Critical — zero backlogs required for 90% of companies",
+            "timeframe": "1–2 semesters"
+        }
+    ],
+    "low_aptitude": [
+        {
+            "title": "Aptitude Accelerator Program",
+            "category": "Skills",
+            "icon": "🧠",
+            "description": (
+                "Aptitude tests are the very first filter in mass placement drives. "
+                "Companies like TCS (NQT), Infosys (InfyTQ), Capgemini, and Wipro "
+                "use scores to shortlist candidates. Consistent daily practice of "
+                "30–50 questions can raise your score by 20–30 points in 4–6 weeks."
+            ),
+            "action_items": [
+                "Register at IndiaBix.com — solve 30 questions per day",
+                "Solve PrepInsta company-specific mock papers (TCS, Infosys, Wipro)",
+                "Focus on: Number System, Time & Work, Speed-Distance, Permutation",
+                "Take 1 full TCS NQT mock test every weekend",
+                "Use Pocket Aptitude or Oliveboard apps for daily practice"
+            ],
+            "resources": [
+                {"name": "IndiaBix", "url": "https://indiabix.com"},
+                {"name": "PrepInsta", "url": "https://prepinsta.com"},
+                {"name": "TCS NQT Practice", "url": "https://learning.tcsionhub.in"},
+                {"name": "PlaceIQ Aptitude Plan", "url": "/plan?skill=low_aptitude"}
+            ],
+            "estimated_impact": "High — aptitude score is 1st-round filter for most companies",
+            "timeframe": "4–6 weeks"
+        }
+    ],
+    "no_internships": [
+        {
+            "title": "Land Your First Internship",
+            "category": "Experience",
+            "icon": "💼",
+            "description": (
+                "Internship experience doubles your placement probability according to "
+                "industry data. Even a 1-month remote or virtual internship counts. "
+                "Internshala has 50,000+ active listings and many are beginner-friendly."
+            ),
+            "action_items": [
+                "Create a profile on Internshala, LinkedIn, and Naukri immediately",
+                "Apply to 10 internships per day using saved search filters",
+                "Target: remote, 0-experience, any domain — get experience first",
+                "Cold-email/message 5 alumni from your college working at firms you target",
+                "Build a 1-page portfolio website to attach to applications"
+            ],
+            "resources": [
+                {"name": "Internshala", "url": "https://internshala.com"},
+                {"name": "LinkedIn Internships", "url": "https://linkedin.com/jobs"},
+                {"name": "Unstop Opportunities", "url": "https://unstop.com"},
+                {"name": "Internship Plan", "url": "/plan?skill=no_internships"}
+            ],
+            "estimated_impact": "High — doubles placement probability with even 1 internship",
+            "timeframe": "2–4 weeks to first offer"
