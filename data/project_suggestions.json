@@ -203,3 +203,44 @@
       "icon": "⚡",
       "weakness_tags": ["low_projects", "low_experience", "no_internships"],
       "projects": [
+        {
+          "id": "mini_01",
+          "title": "Password Strength Checker",
+          "description": "Build a tool that evaluates password strength using regex and gives user feedback. Deploy as a simple Flask web app.",
+          "difficulty": "Beginner",
+          "duration": "2 days",
+          "tech_stack": ["Python", "Flask", "JavaScript"],
+          "skills_gained": ["Regex", "Web basics"],
+          "github_search": "password strength checker python flask"
+        },
+        {
+          "id": "mini_02",
+          "title": "Weather App",
+          "description": "Fetch live weather data from OpenWeatherMap API and display current conditions, forecast, and a city search feature.",
+          "difficulty": "Beginner",
+          "duration": "3 days",
+          "tech_stack": ["Python", "Flask", "OpenWeatherMap API", "HTML/CSS"],
+          "skills_gained": ["REST APIs", "JSON parsing", "Web UI"],
+          "github_search": "weather app python flask openweathermap"
+        },
+        {
+          "id": "mini_03",
+          "title": "Quiz Generator from PDF",
+          "description": "Extract text from a PDF and auto-generate MCQ questions using NLP sentence parsing.",
+          "difficulty": "Intermediate",
+          "duration": "1 week",
+          "tech_stack": ["Python", "PyPDF2", "NLTK", "Flask"],
+          "skills_gained": ["PDF parsing", "NLP", "MCQ generation"],
+          "github_search": "quiz generator pdf python nlp"
+        },
+        {
+          "id": "mini_04",
+          "title": "URL Shortener",
+          "description": "Build a Redis-backed URL shortener with click tracking, expiry, and a dashboard showing analytics.",
+          "difficulty": "Intermediate",
+          "duration": "1 week",
+          "tech_stack": ["Flask", "Redis", "SQLite", "Bootstrap"],
+          "skills_gained": ["Caching", "Hash functions", "Analytics"],
+          "github_search": "url shortener flask redis python"
+        }
+      ]
