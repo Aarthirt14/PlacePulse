@@ -38,3 +38,23 @@
 .task-item {
     display:flex; gap:10px; align-items:flex-start; margin-bottom:8px;
     font-size:13px; color:var(--text2);
+}
+.task-check { width:16px; height:16px; border:1px solid var(--border2); border-radius:4px; margin-top:1px; flex-shrink:0; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-bottom:22px">
+    <div class="card-title">Select Focus Area</div>
+    <div class="plan-nav">
+        {% for p in plans %}
+        <a href="/plan?skill={{ p.key }}" class="plan-nav-item {% if selected_plan and selected_plan.plan_key == p.key %}active{% endif %}">
+            {{ p.icon }} {{ p.title }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% if selected_plan %}
+<div class="grid-3" style="margin-bottom:22px">
+    <div class="stat-card" style="--accent-color:var(--primary)">
