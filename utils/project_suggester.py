@@ -113,3 +113,26 @@ def get_all_categories() -> list[dict]:
             "label": val.get("label", key),
             "icon": val.get("icon", "🛠"),
             "count": len(val.get("projects", [])),
+            "projects": val.get("projects", [])
+        })
+    return cats
+
+
+def get_projects_by_category(category_key: str) -> list[dict]:
+    """Return all projects in a specific category."""
+    data = _load_data()
+    cat = data.get("categories", {}).get(category_key, {})
+    projects = cat.get("projects", [])
+    for p in projects:
+        p["category_label"] = cat.get("label", category_key)
+        p["category_icon"]  = cat.get("icon", "🛠")
+    return projects
+
+
+def get_difficulty_color(difficulty: str) -> str:
+    colors = {
+        "Beginner":     "var(--emerald)",
+        "Intermediate": "var(--primary)",
+        "Advanced":     "var(--rose)"
+    }
+    return colors.get(difficulty, "var(--text2)")
