@@ -153,3 +153,34 @@ def compute_employability_score(data: dict) -> dict:
     weakest_key = min(dims, key=dims.get)
     weakest_label = dim_labels[weakest_key][0]
 
+    interpretation = (
+        f"Your Employability Score is {total}/100 — {band['label']}. "
+        f"Your strongest area is {dim_labels[max(dims, key=dims.get)][0]} "
+        f"and your weakest is {weakest_label}."
+    )
+
+    tips = {
+        "academics":  "Improve your CGPA through consistent study and clearing backlogs.",
+        "experience": "Build projects and apply for internships on Internshala.",
+        "aptitude":   "Practice 30 aptitude questions daily on IndiaBix or PrepInsta.",
+        "skills":     "Practice daily spoken English and mock HR interviews.",
+        "activities": "Complete a free Kaggle or NPTEL certification this month.",
+        "discipline": "Clear all backlogs immediately — this is the #1 placement blocker.",
+    }
+
+    return {
+        "score":           total,
+        "band":            band,
+        "dimensions":      dimension_display,
+        "interpretation":  interpretation,
+        "improvement_tip": tips.get(weakest_key, "Focus on your weakest dimension."),
+        "weakest_dim":     weakest_key,
+    }
+
+
+def score_to_color(score: float) -> str:
+    """Return CSS color variable for a 0–100 score."""
+    if score >= 75:  return "var(--emerald)"
+    if score >= 55:  return "var(--primary)"
+    if score >= 40:  return "var(--yellow)"
+    return "var(--rose)"
