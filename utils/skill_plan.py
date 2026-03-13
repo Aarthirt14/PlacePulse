@@ -106,3 +106,7 @@ def generate_combined_timeline(plans: list[dict]) -> list[dict]:
                 week_entry["themes"].append(f"{plan.get('icon','📋')} {w.get('theme','')}")
                 week_entry["focuses"].append(w.get("focus", ""))
                 week_entry["tasks"].extend(w.get("tasks", []))
+        if week_entry["tasks"]:
+            timeline.append(week_entry)
+
+    return timeline
