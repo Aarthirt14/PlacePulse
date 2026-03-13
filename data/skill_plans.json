@@ -214,3 +214,75 @@
           ],
           "goal": "Apply to at least 50 internships by end of week"
         },
+        {
+          "week": 3,
+          "theme": "Skill Demonstration",
+          "focus": "Build Proof of Work",
+          "tasks": [
+            "Complete one small project relevant to your target internship domain",
+            "Upload project on GitHub with a clear README",
+            "Write a LinkedIn post about something you built or learned",
+            "Prepare answers for common internship interview questions"
+          ],
+          "goal": "Have at least 1 project live on GitHub to showcase"
+        },
+        {
+          "week": 4,
+          "theme": "Interview Readiness",
+          "focus": "Convert Opportunities",
+          "tasks": [
+            "Practice mock interviews using Pramp or InterviewBuddy",
+            "Research each company before attending their interview",
+            "Follow up on applications via email 48 hours after submitting",
+            "Consider applying to college-offered internship programs via TPO"
+          ],
+          "goal": "Secure at least 1 internship offer or project work"
+        }
+      ]
+    },
+    "low_soft_skills": {
+      "title": "Communication & Soft Skills Plan",
+      "icon": "🗣",
+      "target": "Build confident communication for interviews and workplace",
+      "total_weeks": 4,
+      "weeks": [
+        {
+          "week": 1,
+          "theme": "Self-Assessment",
+          "focus": "Identify Gaps",
+          "tasks": [
+            "Record yourself speaking for 2 minutes on any topic — review the recording",
+            "Take a free communication assessment on Coursera or Udemy",
+            "List your top 3 weaknesses: clarity, confidence, vocabulary, or speed",
+            "Start reading English news (The Hindu) for 15 minutes daily"
+          ],
+          "goal": "Clearly know which communication areas to improve"
+        },
+        {
+          "week": 2,
+          "theme": "Verbal Skills",
+          "focus": "Speaking Fluency",
+          "tasks": [
+            "Join a Toastmasters club or online speaking group",
+            "Give a 3-minute speech on any topic daily — record and review",
+            "Learn 5 new English words/day — use in conversation",
+            "Practice STAR (Situation-Task-Action-Result) answers for HR questions"
+          ],
+          "goal": "Be able to speak fluently on any topic for 3 minutes"
+        },
+        {
+          "week": 3,
+          "theme": "Interview Skills",
+          "focus": "HR & Group Discussion",
+          "tasks": [
+            "Practice 20 common HR questions (Tell me about yourself, strengths, weaknesses)",
+            "Participate in mock GD sessions (college, online groups, or YouTube GD topics)",
+            "Watch 5 successful interview videos on YouTube for body language tips",
+            "Learn the STAR method and practice 5 behavioral questions using it"
+          ],
+          "goal": "Confidently answer 20 common interview questions"
+        },
+        {
+          "week": 4,
+          "theme": "Professional Polish",
+          "focus": "Email, LinkedIn, Body Language",
