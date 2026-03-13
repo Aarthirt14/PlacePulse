@@ -88,3 +88,21 @@ def generate_combined_timeline(plans: list[dict]) -> list[dict]:
     Useful for displaying a combined roadmap on the /plan page.
 
     Returns list of week dicts with combined tasks from all plans.
+    """
+    max_weeks = max((p.get("total_weeks", 4) for p in plans), default=4)
+    timeline = []
+
+    for week_num in range(1, max_weeks + 1):
+        week_entry = {
+            "week": week_num,
+            "tasks": [],
+            "themes": [],
+            "focuses": []
+        }
+        for plan in plans:
+            weeks = plan.get("weeks", [])
+            matching = [w for w in weeks if w.get("week") == week_num]
+            for w in matching:
+                week_entry["themes"].append(f"{plan.get('icon','📋')} {w.get('theme','')}")
+                week_entry["focuses"].append(w.get("focus", ""))
+                week_entry["tasks"].extend(w.get("tasks", []))
