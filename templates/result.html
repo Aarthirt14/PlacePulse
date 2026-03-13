@@ -52,3 +52,57 @@
 .priority-HIGH     { background:rgba(251,191,36,.18);  color:var(--yellow); }
 .priority-MEDIUM   { background:rgba(245,158,11,.18);  color:var(--primary); }
 .priority-LOW      { background:rgba(52,211,153,.18);  color:var(--emerald); }
+.priority-INFO     { background:rgba(56,189,248,.18);  color:var(--sky); }
+.rec-card h4 { font-size:14px; font-weight:700; margin-bottom:5px; }
+.rec-card p { font-size:12.5px; color:var(--text2); line-height:1.65; }
+.shap-bar-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.shap-label { font-size:12px; color:var(--text2); width:175px; flex-shrink:0; text-align:right; }
+.shap-track { flex:1; height:9px; background:rgba(255,255,255,.06); border-radius:100px; position:relative; }
+.shap-fill-pos { height:9px; border-radius:100px; background:var(--emerald); position:absolute; left:50%; }
+.shap-fill-neg { height:9px; border-radius:100px; background:var(--rose); position:absolute; right:50%; }
+.shap-val { font-size:11px; font-family:var(--mono); width:50px; color:var(--text2); }
+.risk-gauge { position:relative; text-align:center; padding:18px; }
+.gauge-val { font-size:46px; font-weight:800; font-family:var(--mono); }
+.gauge-label { font-size:12.5px; color:var(--text2); margin-top:3px; }
+</style>
+{% endblock %}
+
+{% block topbar_actions %}
+<a href="/predict" class="btn btn-primary">◈ New Prediction</a>
+<button onclick="downloadReport()" class="btn btn-rose">📄 Download Report</button>
+<a href="/history" class="btn btn-outline">⊙ History</a>
+{% endblock %}
+
+{% block content %}
+<div id="result-content" style="display:none">
+
+    <div class="result-hero" id="result-hero">
+        <div class="prob-ring">
+            <canvas id="prob-ring-canvas" width="150" height="150"></canvas>
+            <div class="prob-label">
+                <div class="prob-val" id="prob-val">-</div>
+                <div class="prob-text">Probability</div>
+            </div>
+        </div>
+        <div class="result-info">
+            <h2 id="result-verdict">Analyzing…</h2>
+            <p id="result-student">Student: –</p>
+            <div class="result-badges" id="result-badges"></div>
+        </div>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:22px">
+        <!-- Risk Score -->
+        <div class="card">
+            <div class="card-title">⚠ Risk Score</div>
+            <div class="risk-gauge">
+                <canvas id="risk-chart" width="200" height="110"></canvas>
+                <div class="gauge-val" id="risk-val">–</div>
+                <div class="gauge-label">/ 100 (Higher = Risk)</div>
+            </div>
+        </div>
+        <!-- Career Score -->
+        <div class="card">
+            <div class="card-title">📈 Employability Score</div>
+            <div class="risk-gauge">
+                <canvas id="career-chart" width="200" height="110"></canvas>
