@@ -263,3 +263,56 @@ def generate_pdf_report(result: dict, output_path: str | None = None) -> bytes |
             ("ROWBACKGROUNDS", (0,1), (-1,-1), [colors.white, colors.HexColor("#f9f6f0")]),
             ("GRID",       (0,0), (-1,-1), 0.5, colors.lightgrey),
             ("PADDING",    (0,0), (-1,-1), 6),
+        ]))
+        story.append(t)
+        story.append(Spacer(1, 0.5*cm))
+
+        # Weaknesses
+        weaknesses = result.get("weaknesses", [])
+        if weaknesses:
+            story.append(Paragraph("Weakness Analysis", h2))
+            for w in weaknesses:
+                sev_color = {"CRITICAL": ROSE, "HIGH": ROSE, "MEDIUM": AMBER, "LOW": EMRALD}.get(w.get("severity",""), DARK)
+                story.append(Paragraph(
+                    f'<font color="#{sev_color.hexval()[1:]}">[{w.get("severity")}]</font> <b>{w.get("label","")}</b>',
+                    body
+                ))
+                story.append(Paragraph(w.get("message",""), small))
+                story.append(Spacer(1, 0.2*cm))
+            story.append(Spacer(1, 0.3*cm))
+
+        # Recommendations
+        recs = result.get("recommendations", [])
+        if recs:
+            story.append(Paragraph("AI-Powered Recommendations", h2))
+            for i, rec in enumerate(recs[:5], 1):
+                story.append(Paragraph(f'{i}. [{rec.get("priority")}] {rec.get("title","")}', body))
+                story.append(Paragraph(rec.get("description","")[:300], small))
+                for act in rec.get("action_items", [])[:3]:
+                    story.append(Paragraph(f"• {act}", small))
+                story.append(Spacer(1, 0.25*cm))
+
+        # Footer
+        story.append(HRFlowable(width="100%", thickness=1, color=AMBER))
+        story.append(Paragraph("PlaceIQ AI System · http://localhost:5050", small))
+
+        doc.build(story)
+        pdf_bytes = buf.getvalue()
+
+        if output_path:
+            with open(output_path, "wb") as f:
+                f.write(pdf_bytes)
+            return None
+        return pdf_bytes
+
+    except ImportError:
+        # reportlab not installed — return None, caller should fallback to TXT
+        return None
+
+
+def pdf_available() -> bool:
+    """Check whether reportlab is installed for PDF generation."""
+    try:
+        import reportlab  # noqa: F401
+        return True
+    except ImportError:
