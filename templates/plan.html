@@ -58,3 +58,23 @@
 {% if selected_plan %}
 <div class="grid-3" style="margin-bottom:22px">
     <div class="stat-card" style="--accent-color:var(--primary)">
+        <span class="stat-icon">{{ selected_plan.icon }}</span>
+        <div class="stat-value">{{ selected_plan.total_weeks }}</div>
+        <div class="stat-label">Total Weeks</div>
+    </div>
+    <div class="stat-card" style="--accent-color:var(--emerald)">
+        <div class="stat-value">Active</div>
+        <div class="stat-label">Plan Status</div>
+    </div>
+    <div class="stat-card" style="--accent-color:var(--sky)" onclick="window.print()">
+        <span class="stat-icon">📄</span>
+        <div class="stat-value">Print</div>
+        <div class="stat-label">Offline Copy</div>
+    </div>
+</div>
+
+<div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div>
+            <h2 style="font-size:22px;color:var(--primary)">{{ selected_plan.title }} Roadmap</h2>
+            <p style="color:var(--text2);font-size:13.5px">Goal: {{ selected_plan.target }}</p>
