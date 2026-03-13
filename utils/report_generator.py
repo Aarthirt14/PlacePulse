@@ -210,3 +210,56 @@ def generate_pdf_report(result: dict, output_path: str | None = None) -> bytes |
         from reportlab.lib import colors
         from reportlab.platypus import (
             SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+        )
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib.units import cm
+        import io
+
+        buf = io.BytesIO()
+        doc = SimpleDocTemplate(buf, pagesize=A4, topMargin=1.5*cm, bottomMargin=1.5*cm)
+        styles = getSampleStyleSheet()
+        story  = []
+
+        AMBER  = colors.HexColor("#f59e0b")
+        ROSE   = colors.HexColor("#fb7185")
+        EMRALD = colors.HexColor("#34d399")
+        DARK   = colors.HexColor("#1e1e1e")
+        LIGHT  = colors.HexColor("#e5e0d5")
+
+        h1 = ParagraphStyle("h1", fontSize=18, textColor=AMBER, spaceAfter=4, fontName="Helvetica-Bold")
+        h2 = ParagraphStyle("h2", fontSize=13, textColor=AMBER, spaceAfter=4, fontName="Helvetica-Bold")
+        body = ParagraphStyle("body", fontSize=10, textColor=DARK, leading=16)
+        small = ParagraphStyle("small", fontSize=9, textColor=colors.grey)
+
+        now  = datetime.now().strftime("%d %B %Y · %I:%M %p")
+        name = result.get("student_name", "Unknown")
+        prob = result.get("probability", 0)
+        pred = result.get("prediction", "Unknown")
+        cat  = result.get("category", "")
+        risk = result.get("risk_score", 0)
+        emp  = result.get("career_score", {}).get("score", "N/A") if result.get("career_score") else "N/A"
+
+        story.append(Paragraph("PlaceIQ — AI Placement Intelligence Report", h1))
+        story.append(Paragraph(f"Generated: {now}", small))
+        story.append(HRFlowable(width="100%", thickness=1, color=AMBER))
+        story.append(Spacer(1, 0.3*cm))
+
+        # Summary table
+        summary_data = [
+            ["Field", "Value"],
+            ["Student Name", name],
+            ["Prediction", f"{pred} ({cat})"],
+            ["Probability", f"{prob}%"],
+            ["Risk Score", f"{risk}/100"],
+            ["Employability Score", f"{emp}/100"],
+            ["Model Used", result.get("model_used", "—")],
+        ]
+        t = Table(summary_data, colWidths=[6*cm, 10*cm])
+        t.setStyle(TableStyle([
+            ("BACKGROUND", (0,0), (-1,0), AMBER),
+            ("TEXTCOLOR",  (0,0), (-1,0), colors.black),
+            ("FONTNAME",   (0,0), (-1,0), "Helvetica-Bold"),
+            ("FONTSIZE",   (0,0), (-1,-1), 10),
+            ("ROWBACKGROUNDS", (0,1), (-1,-1), [colors.white, colors.HexColor("#f9f6f0")]),
+            ("GRID",       (0,0), (-1,-1), 0.5, colors.lightgrey),
+            ("PADDING",    (0,0), (-1,-1), 6),
