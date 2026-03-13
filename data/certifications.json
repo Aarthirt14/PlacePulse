@@ -213,3 +213,46 @@
     },
     "hackathons": {
       "name": "Hackathons & Competitions",
+      "logo": "⚡",
+      "url": "https://devfolio.co",
+      "description": "Competitive events that give real-world problem solving experience and team skills in 24–48 hours.",
+      "cost": "Free to participate",
+      "recognized_by": "Startups, MNCs, product companies — extremely valuable",
+      "events": [
+        {
+          "title": "Smart India Hackathon (SIH)",
+          "platform": "Government of India",
+          "url": "https://www.sih.gov.in",
+          "skill_tags": ["no_internships", "low_experience", "low_soft_skills"],
+          "reason": "National-level government hackathon, massive resume boost, cash prizes"
+        },
+        {
+          "title": "Kaggle Competitions",
+          "platform": "Kaggle",
+          "url": "https://kaggle.com/competitions",
+          "skill_tags": ["low_aptitude", "low_projects"],
+          "reason": "Global ML competitions with leaderboard rankings — directly visible to recruiters"
+        },
+        {
+          "title": "HackWithInfy (Infosys)",
+          "platform": "Infosys",
+          "url": "https://hackwithinfy.com",
+          "skill_tags": ["no_internships", "low_aptitude"],
+          "reason": "Infosys-hosted competition — winners get direct interview shortlists"
+        },
+        {
+          "title": "Unstop Hackathons",
+          "platform": "Unstop",
+          "url": "https://unstop.com",
+          "skill_tags": ["no_internships", "low_experience", "low_soft_skills"],
+          "reason": "100+ live hackathons, quizzes, case challenges — great for freshers"
+        },
+        {
+          "title": "Devfolio Hackathons",
+          "platform": "Devfolio",
+          "url": "https://devfolio.co/hackathons",
+          "skill_tags": ["low_projects", "no_internships"],
+          "reason": "Online and offline hackathons with project portfolio outcomes"
+        }
+      ]
+    }
