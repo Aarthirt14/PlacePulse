@@ -104,3 +104,56 @@ def generate_txt_report(result: dict) -> str:
         ("internships",      "Internships"),
         ("projects",         "Projects"),
         ("workshops",        "Workshops/Certs"),
+        ("aptitude_score",   "Aptitude Score"),
+        ("soft_skills",      "Soft Skills Rating"),
+        ("backlogs",         "Backlogs"),
+    ]
+    lines += [_section("Profile Data")]
+    for key, label in profile_keys:
+        val = result.get(key, result.get("input_data", {}).get(key, "—"))
+        lines.append(f"  {label:<22}: {val}")
+    lines.append("")
+
+    # ---- Weakness Analysis ----
+    if weaknesses:
+        lines += [_section("Weakness Analysis")]
+        for i, w in enumerate(weaknesses, 1):
+            sev = w.get("severity", "INFO")
+            lbl = w.get("label", "")
+            msg = w.get("message", "")
+            lines.append(f"  {i}. [{sev}] {lbl}")
+            lines.append(_wrap(msg, indent=6))
+            lines.append("")
+    else:
+        lines += [_section("Weakness Analysis"), "  No critical weaknesses detected.\n"]
+
+    # ---- Employability Score Breakdown ----
+    if career and career.get("dimensions"):
+        lines += [_section("Employability Score Breakdown")]
+        dims = career["dimensions"]
+        for key, dim in dims.items():
+            bar_filled = int(dim["score"] / 10)
+            bar = "█" * bar_filled + "░" * (10 - bar_filled)
+            lines.append(
+                f"  {dim['label']:<24} [{bar}]  {dim['score']:.1f}/100  (weight: {dim['weight']}%)"
+            )
+        lines.append(f"\n  TOTAL EMPLOYABILITY SCORE: {emp_score}/100  —  {emp_band}")
+        tip = career.get("improvement_tip", "")
+        if tip:
+            lines.append(f"\n  Top Tip: {tip}")
+        lines.append("")
+
+    # ---- Feature Importance ----
+    if fi:
+        lines += [_section("Top Feature Contributions")]
+        sorted_fi = sorted(fi.items(), key=lambda x: x[1], reverse=True)[:8]
+        max_val = sorted_fi[0][1] if sorted_fi else 1
+        for feat, val in sorted_fi:
+            pct = round(val * 100, 1)
+            bar_len = int((val / max_val) * 20)
+            bar = "█" * bar_len + "░" * (20 - bar_len)
+            lines.append(f"  {feat.replace('_',' '):<28} [{bar}]  {pct}%")
+        lines.append("")
+
+    # ---- Recommendations ----
+    if recs:
