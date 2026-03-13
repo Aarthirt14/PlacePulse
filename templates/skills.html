@@ -54,3 +54,17 @@
             </div>
         </div>
     </div>
+</div>
+
+<script>
+window.addEventListener('load', () => {
+    const ctx = document.getElementById('weight-chart').getContext('2d');
+    new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+            labels: ['Academics', 'Experience', 'Aptitude', 'Soft Skills', 'Certs', 'Discipline'],
+            datasets: [{
+                data: [28, 22, 18, 15, 10, 7],
+                backgroundColor: [
+                    'rgba(245,158,11,0.6)',
+                    'rgba(52,211,153,0.6)',
