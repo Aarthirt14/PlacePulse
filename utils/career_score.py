@@ -91,3 +91,34 @@ def _discipline_score(data: dict) -> float:
 
 def _get_band(score: float) -> dict:
     for low, high, label, color, icon in BANDS:
+        if low <= score <= high:
+            return {"label": label, "color": color, "icon": icon}
+    return {"label": "Unknown", "color": "var(--text2)", "icon": "◎"}
+
+
+def compute_employability_score(data: dict) -> dict:
+    """
+    Compute a full Employability Score for the student profile.
+
+    Parameters
+    ----------
+    data : student profile dict (same keys as prediction form)
+
+    Returns
+    -------
+    dict with keys:
+        score           : int 0–100
+        band            : dict(label, color, icon)
+        dimensions      : dict of subscore dicts
+        interpretation  : str explanation
+        improvement_tip : str top tip
+    """
+    dims = {
+        "academics":  _academics_score(data),
+        "experience": _experience_score(data),
+        "aptitude":   _aptitude_score_dim(data),
+        "skills":     _skills_score(data),
+        "activities": _activities_score(data),
+        "discipline": _discipline_score(data),
+    }
+
