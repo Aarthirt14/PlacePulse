@@ -60,3 +60,34 @@ def _aptitude_score_dim(data: dict) -> float:
     """0–100 aptitude subscore (same scale as the input)."""
     return _clamp(_f(data.get("aptitude_score", 0)), 0, 100)
 
+
+def _skills_score(data: dict) -> float:
+    """0–100 skills subscore."""
+    soft   = _clamp(_f(data.get("soft_skills", 0)) / 5.0 * 100, 0, 100)
+    train  = 100.0 if str(data.get("placement_training", "No")).strip().lower() in ("yes","1","true") else 0.0
+    return round(soft * 0.70 + train * 0.30, 2)
+
+
+def _activities_score(data: dict) -> float:
+    """0–100 activities subscore."""
+    workshops = _clamp(_f(data.get("workshops", data.get("workshops_certifications", 0))), 0, 4)
+    extra     = 100.0 if str(data.get("extracurricular", "No")).strip().lower() in ("yes","1","true") else 0.0
+    cert_s    = (workshops / 4.0) * 100
+    return round(cert_s * 0.55 + extra * 0.45, 2)
+
+
+def _discipline_score(data: dict) -> float:
+    """0–100 discipline subscore — penalized by backlogs."""
+    backlogs = int(_f(data.get("backlogs", 0)))
+    if backlogs == 0:
+        return 100.0
+    elif backlogs == 1:
+        return 50.0
+    elif backlogs == 2:
+        return 20.0
+    else:
+        return 0.0
+
+
+def _get_band(score: float) -> dict:
+    for low, high, label, color, icon in BANDS:
