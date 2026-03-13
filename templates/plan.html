@@ -18,3 +18,23 @@
     content:''; position:absolute; left:7px; top:0; bottom:0; width:1px;
     background:var(--border2);
 }
+
+.timeline-week { position:relative; margin-bottom:32px; }
+.timeline-dot {
+    position:absolute; left:-30px; top:5px; width:15px; height:15px;
+    border-radius:50%; background:var(--bg2); border:2px solid var(--primary);
+    box-shadow:0 0 0 4px var(--bg); z-index:2;
+}
+.week-card {
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:18px; border-left:4px solid var(--primary);
+}
+.week-num { font-size:11px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
+.week-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+.week-title { font-size:16px; font-weight:700; color:var(--text); }
+.week-focus { font-size:12px; color:var(--text3); font-style:italic; }
+
+.task-list { list-style:none; }
+.task-item {
+    display:flex; gap:10px; align-items:flex-start; margin-bottom:8px;
+    font-size:13px; color:var(--text2);
