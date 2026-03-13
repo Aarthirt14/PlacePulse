@@ -178,3 +178,63 @@ _RECS = {
     "low_soft_skills": [
         {
           "title": "Communication & Interview Skills Bootcamp",
+          "category": "Soft Skills",
+          "icon": "🗣",
+          "description": (
+              "Soft skills — communication, confidence, and teamwork — determine "
+              "success in HR interviews and group discussions. Many technically "
+              "strong students fail at this stage. 30 minutes of daily practice "
+              "makes a measurable difference in 3–4 weeks."
+          ),
+          "action_items": [
+              "Record yourself for 2 minutes daily — review for clarity and confidence",
+              "Practice 20 common HR questions using the STAR method",
+              "Participate in mock GD sessions (online groups, college clubs)",
+              "Read English newspaper for 15 minutes daily — builds vocabulary",
+              "Learn professional email writing — send 3 mock emails per day"
+          ],
+          "resources": [
+              {"name": "Toastmasters Online", "url": "https://toastmasters.org"},
+              {"name": "NPTEL Soft Skills", "url": "https://nptel.ac.in"},
+              {"name": "InterviewBuddy Mock Interviews", "url": "https://interviewbuddy.net"},
+              {"name": "Soft Skills Plan", "url": "/plan?skill=low_soft_skills"}
+          ],
+          "estimated_impact": "High — HR round elimination is top reason students don't get placed",
+          "timeframe": "3–4 weeks"
+        }
+    ],
+    "no_extracurriculars": [
+        {
+            "title": "Build Leadership Through Activities",
+            "category": "Profile",
+            "icon": "🏅",
+            "description": (
+                "Extracurricular activities demonstrate teamwork, leadership, and "
+                "communication — qualities companies look for beyond academics. "
+                "Hackathons in particular are excellent for technical resume building."
+            ),
+            "action_items": [
+                "Register for 1 hackathon on Devfolio or Unstop this month",
+                "Join a technical club in your college (coding, robotics, debate)",
+                "Volunteer for college events or inter-college competitions",
+                "Participate in Smart India Hackathon (SIH) — national level exposure",
+                "Add any existing activities (NCC, NSS, sports) to your resume"
+            ],
+            "resources": [
+                {"name": "Devfolio Hackathons", "url": "https://devfolio.co"},
+                {"name": "Unstop Competitions", "url": "https://unstop.com"},
+                {"name": "Smart India Hackathon", "url": "https://sih.gov.in"}
+            ],
+            "estimated_impact": "Medium — adds depth to resume and shows cultural fit",
+            "timeframe": "Ongoing"
+        }
+    ],
+    "no_training": [
+        {
+            "title": "Attend Placement Training",
+            "category": "Preparation",
+            "icon": "🎯",
+            "description": (
+                "Placement training bridges the gap between college academics and "
+                "industry expectations. It typically covers aptitude, GD, technical "
+                "interviews, and HR rounds. Missing this is a significant disadvantage."
