@@ -222,3 +222,59 @@ def detect_weaknesses(data: dict) -> list[dict]:
             "severity": "MEDIUM",
             "actual_value": 0,
             "threshold": 1,
+            "message": "No workshops or certifications. Certifications show self-driven learning and fill resume gaps.",
+            "improvement_hint": "Complete 1 free Kaggle or NPTEL course this month to get a verifiable certificate.",
+            "tag": "low_certifications",
+            "icon": "📜"
+        })
+    elif workshops < THRESHOLDS["workshops"]["low"] + 1:
+        weaknesses.append({
+            "field": "low_certifications",
+            "label": "Few Certifications",
+            "severity": "LOW",
+            "actual_value": workshops,
+            "threshold": 2,
+            "message": f"Only {workshops} certification(s). Getting 2–3 strong certs adds credibility to your profile.",
+            "improvement_hint": "Enrol in a Coursera specialization or Udemy course relevant to your target role.",
+            "tag": "low_certifications",
+            "icon": "📜"
+        })
+
+    # ----------------------------------------------------------------- Soft Skills
+    if soft_skills < THRESHOLDS["soft_skills"]["critical"]:
+        weaknesses.append({
+            "field": "low_soft_skills",
+            "label": "Poor Soft Skills",
+            "severity": "HIGH",
+            "actual_value": soft_skills,
+            "threshold": THRESHOLDS["soft_skills"]["critical"],
+            "message": f"Soft skills rating of {soft_skills}/5 is very low. Poor communication is one of the top reasons for placement failure.",
+            "improvement_hint": "Practice daily spoken English, join a GD group, and do mock HR interviews.",
+            "tag": "low_soft_skills",
+            "icon": "🗣"
+        })
+    elif soft_skills < THRESHOLDS["soft_skills"]["medium"]:
+        weaknesses.append({
+            "field": "low_soft_skills",
+            "label": "Average Soft Skills",
+            "severity": "MEDIUM",
+            "actual_value": soft_skills,
+            "threshold": THRESHOLDS["soft_skills"]["medium"],
+            "message": f"Soft skills rating {soft_skills}/5 is average. Strong communication skills differentiate candidates in HR rounds.",
+            "improvement_hint": "Practice STAR-format answers and improve body language for interviews.",
+            "tag": "low_soft_skills",
+            "icon": "🗣"
+        })
+
+    # ----------------------------------------------------------------- SSC / HSC
+    if ssc < THRESHOLDS["ssc_marks"]["critical"]:
+        weaknesses.append({
+            "field": "low_academic",
+            "label": "Low SSC Marks",
+            "severity": "MEDIUM",
+            "actual_value": ssc,
+            "threshold": THRESHOLDS["ssc_marks"]["critical"],
+            "message": f"SSC marks ({ssc:.1f}%) are low. Some companies check 10th board scores in shortlisting.",
+            "improvement_hint": "Focus on compensating with strong CGPA and more projects.",
+            "tag": "low_cgpa",
+            "icon": "📚"
