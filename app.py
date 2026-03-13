@@ -214,3 +214,75 @@ def upload_page():
         
         try:
             df = pd.read_csv(save_path)
+            initialize_pipeline(df)
+            return jsonify({'success': True, 'message': f'Dataset uploaded ({len(df)} rows). Model retrained successfully!', 'rows': len(df)})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+    return render_template('upload.html')
+
+@app.route('/metrics')
+def metrics_api():
+    from model.train import get_metrics
+    return jsonify(get_metrics())
+
+@app.route('/api/history')
+def history_api():
+    predictions = get_all_predictions()
+    return jsonify(predictions)
+
+@app.route('/api/analytics')
+def analytics_api():
+    return jsonify(get_analytics())
+
+@app.route('/api/insights')
+def insights_api():
+    return jsonify({'insights': insights_global})
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NEW AI UPGRADE ROUTES
+# ─────────────────────────────────────────────────────────────────────────────
+
+@app.route('/improvement')
+def improvement_hub():
+    return render_template('improvement.html')
+
+@app.route('/plan')
+def plan_page():
+    skill = request.args.get('skill')
+    from utils.skill_plan import get_all_plan_keys, get_plan, generate_combined_timeline
+    plans_list = get_all_plan_keys()
+    
+    selected_plan = None
+    timeline = []
+    
+    if skill:
+        selected_plan = get_plan(skill)
+        if selected_plan:
+            timeline = generate_combined_timeline([selected_plan])
+            
+    return render_template('plan.html', plans=plans_list, selected_plan=selected_plan, timeline=timeline)
+
+@app.route('/mentor')
+def mentor_dashboard():
+    predictions = get_all_predictions()
+    from utils.weakness_detector import detect_weaknesses, weakness_summary
+    
+    at_risk = []
+    top_students = []
+    common_weaknesses = {}
+    
+    for p in predictions:
+        try:
+            # Map legacy names if needed
+            p_data = {
+                'cgpa': p['cgpa'],
+                'aptitude_score': p['aptitude_score'],
+                'internships': p['internships'],
+                'projects': p['projects'],
+                'backlogs': p['backlogs']
+            }
+            w = detect_weaknesses(p_data)
+            p['weakness_count'] = len(w)
+            p['severity'] = weakness_summary(w)
+            
