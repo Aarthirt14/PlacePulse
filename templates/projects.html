@@ -49,3 +49,20 @@
                 </a>
                 {% endfor %}
             </div>
+        </div>
+    </div>
+    
+    <!-- Projects Main -->
+    <div class="project-main">
+        {% if selected_cat %}
+        <div style="margin-bottom:20px;display:flex;justify-content:space-between;align-items:center">
+            <div>
+                <h2 style="font-size:22px;color:var(--primary)">{{ selected_cat.icon }} {{ selected_cat.label }}</h2>
+                <p style="color:var(--text2);font-size:13.5px">Found {{ selected_cat.count }} projects for you.</p>
+            </div>
+            <a href="/projects" class="btn btn-outline btn-sm">Close Explorer</a>
+        </div>
+        
+        <div class="project-grid">
+            {% for p in projects %}
+            <div class="project-card">
