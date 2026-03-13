@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Mentor Panel – PlaceIQ{% endblock %}
+{% block page_title %}Mentor Dashboard{% endblock %}
+{% block page_sub %}Administrative view for student placement readiness tracking{% endblock %}
+
+{% block extra_head %}
+<style>
+.mentor-grid { display:grid; grid-template-columns:350px 1fr; gap:22px; }
+.student-list { max-height:600px; overflow-y:auto; }
+.student-card {
+    background:var(--bg3); border:1px solid var(--border); border-radius:10px;
+    padding:12px 15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;
+    transition:all .15s; cursor:pointer;
+}
+.student-card:hover { border-color:var(--primary); background:rgba(255,255,255,0.03); }
+.student-card.at-risk { border-left:4px solid var(--rose); }
+.student-card.top { border-left:4px solid var(--emerald); }
+
