@@ -278,3 +278,59 @@
             <span id="status-text">Checking model...</span>
         </div>
     </div>
+</nav>
+
+<main class="main">
+    {% block topbar %}
+    <div class="topbar">
+        <div>
+            <div class="page-title">{% block page_title %}AI Placement Intelligence{% endblock %}</div>
+            <div class="page-sub">{% block page_sub %}Machine Learning Decision Platform{% endblock %}</div>
+        </div>
+        <div class="topbar-actions">{% block topbar_actions %}{% endblock %}</div>
+    </div>
+    {% endblock %}
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</main>
+
+<div id="toast"></div>
+
+<script>
+function showToast(msg, type='info') {
+    const t = document.getElementById('toast');
+    const colors = {success:'#34d399', error:'#f87171', info:'#f59e0b', warning:'#fbbf24'};
+    t.style.borderLeftColor = colors[type] || colors.info;
+    t.style.borderLeftWidth = '3px';
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+async function checkStatus() {
+    try {
+        const r = await fetch('/api/status');
+        const d = await r.json();
+        const dot = document.getElementById('status-dot');
+        const txt = document.getElementById('status-text');
+        if (d.ready) {
+            dot.style.background = '#34d399';
+            txt.textContent = 'Model Ready';
+        } else if (d.model_trained) {
+            dot.style.background = '#fbbf24';
+            txt.textContent = 'Initializing...';
+        } else {
+            dot.style.background = '#f87171';
+            txt.textContent = 'Not Ready';
+        }
+    } catch {}
+}
+checkStatus();
+setInterval(checkStatus, 10000);
+</script>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
