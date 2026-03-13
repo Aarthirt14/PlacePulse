@@ -214,3 +214,57 @@ if (result) {
                 <div class="shap-label">${name.replace(/_/g,' ')}</div>
                 <div class="shap-track">
                     <div class="shap-fill-pos" style="width:${(val/max)*45}%"></div>
+                </div>
+                <div class="shap-val">${(val*100).toFixed(1)}%</div>
+            </div>
+        `).join('');
+    }
+
+    // Feature importance bars
+    if (result.feature_importance) {
+        const fi = result.feature_importance;
+        const entries = Object.entries(fi).sort((a,b) => b[1]-a[1]).slice(0,7);
+        const max = entries[0]?.[1] || 1;
+        const colors = ['#f59e0b','#fb7185','#34d399','#38bdf8','#a78bfa','#fbbf24','#f59e0b'];
+        document.getElementById('fi-bars').innerHTML = entries.map(([name, val], i) => `
+            <div style="margin-bottom:10px">
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                    <span style="color:var(--text2)">${name.replace(/_/g,' ')}</span>
+                    <span style="font-family:var(--mono);color:${colors[i]}">${(val*100).toFixed(1)}%</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-fill" style="width:${(val/max)*100}%;background:${colors[i]}"></div>
+                </div>
+            </div>`).join('');
+    }
+
+    // Model info
+    const clrMap = {'High Chance':'#34d399','Medium Chance':'#fbbf24','Low Chance':'#fb7185'};
+    const clr = clrMap[result.category] || catColor;
+    document.getElementById('model-info').innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:12px;padding:6px 0">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 15px;background:var(--bg3);border-radius:var(--radius);border:1px solid var(--border)">
+                <span style="color:var(--text2);font-size:13px">Model Used</span>
+                <span style="font-weight:700;color:var(--primary)">${result.model_used}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 15px;background:var(--bg3);border-radius:var(--radius);border:1px solid var(--border)">
+                <span style="color:var(--text2);font-size:13px">Performance Category</span>
+                <span style="font-weight:700;color:${clr}">${result.category_icon} ${result.category}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 15px;background:var(--bg3);border-radius:var(--radius);border:1px solid var(--border)">
+                <span style="color:var(--text2);font-size:13px">Probability</span>
+                <span style="font-weight:800;font-size:22px;font-family:var(--mono);color:${clr}">${prob}%</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 15px;background:var(--bg3);border-radius:var(--radius);border:1px solid var(--border)">
+                <span style="color:var(--text2);font-size:13px">Risk Score</span>
+                <span style="font-weight:700;color:${riskColor}">${result.risk_score} / 100</span>
+            </div>
+        </div>
+    `;
+
+    // Recommendations
+    const recs = result.recommendations || [];
+    document.getElementById('recommendations').innerHTML = recs.length ? recs.map(r => `
+        <div class="rec-card">
+            <div class="rec-icon">${r.icon || '💡'}</div>
+            <div style="flex:1">
