@@ -98,3 +98,23 @@
                     {% for task in week.tasks %}
                     <div class="task-item">
                         <div class="task-check"></div>
+                        <span>{{ task }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="card" style="text-align:center;padding:60px">
+    <div style="font-size:48px;margin-bottom:14px">📋</div>
+    <h3>No Plan Selected</h3>
+    <p style="color:var(--text2);margin-bottom:22px;max-width:400px;margin-inline:auto">
+        Please select a focus area from the navigation above to view your personalized weekly roadmap.
+    </p>
+    <div style="display:flex;gap:10px;justify-content:center">
+        <a href="/plan?skill=low_aptitude" class="btn btn-primary">Try Aptitude Plan</a>
+        <a href="/improvement" class="btn btn-outline">Go to Hub</a>
+    </div>
