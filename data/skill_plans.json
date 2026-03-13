@@ -142,3 +142,75 @@
             "Study: Time & Work, Speed-Distance-Time, Mixtures, Ratios",
             "Solve 25 problems/day across these topics",
             "Take 1 timed quant mini-test (20 questions in 15 minutes)",
+            "Review all wrong answers on the same day"
+          ],
+          "goal": "Complete top 10 high-frequency aptitude chapters"
+        },
+        {
+          "week": 4,
+          "theme": "Logical Reasoning",
+          "focus": "Patterns & Sequences",
+          "tasks": [
+            "Study: Blood Relations, Seating Arrangement, Syllogisms, Coding-Decoding",
+            "Solve 30 LR questions/day on PrepInsta or GeeksforGeeks",
+            "Take one LR-focused mock test",
+            "Practice with Puzzles from TCS NQT and Infosys sample papers"
+          ],
+          "goal": "Complete LR section with 75%+ accuracy"
+        },
+        {
+          "week": 5,
+          "theme": "Verbal Ability",
+          "focus": "English & Communication",
+          "tasks": [
+            "Study: Reading Comprehension, Fill-in-the-blanks, Sentence correction",
+            "Read one English news article daily (The Hindu or Economics Times)",
+            "Learn 10 new vocabulary words/day using Memrise or Anki",
+            "Practice 20 verbal questions/day on IndiaBix"
+          ],
+          "goal": "Achieve 70% accuracy in verbal/English sections"
+        },
+        {
+          "week": 6,
+          "theme": "Full Mock Sprint",
+          "focus": "Complete Tests",
+          "tasks": [
+            "Take 1 full TCS NQT/Infosys/Wipro mock test daily",
+            "Analyze score, topic-wise accuracy, and time taken",
+            "Review category-wise performance — focus on weakest section",
+            "Aim to reduce per-question time to under 60 seconds"
+          ],
+          "goal": "Score 75+ consistently in full mock tests"
+        }
+      ]
+    },
+    "no_internships": {
+      "title": "Internship Acquisition Plan",
+      "icon": "💼",
+      "target": "Land your first internship within 4 weeks",
+      "total_weeks": 4,
+      "weeks": [
+        {
+          "week": 1,
+          "theme": "Profile Setup",
+          "focus": "Build Your Online Presence",
+          "tasks": [
+            "Create/update LinkedIn profile with a professional photo and bio",
+            "Upload resume to Internshala, Naukri, and LinkedIn",
+            "Create a GitHub profile and upload any existing mini projects",
+            "Draft a strong internship cover letter template"
+          ],
+          "goal": "Have an active LinkedIn & Internshala profile live"
+        },
+        {
+          "week": 2,
+          "theme": "Application Sprint",
+          "focus": "Apply at Scale",
+          "tasks": [
+            "Apply to 10 internships/day on Internshala (target remote/virtual roles)",
+            "Use filters: 0–1 year experience, remote, stipend ≥ ₹5000",
+            "Connect with 5 alumni from your college working in target companies on LinkedIn",
+            "Check company career pages of top 20 Indian companies for intern openings"
+          ],
+          "goal": "Apply to at least 50 internships by end of week"
+        },
