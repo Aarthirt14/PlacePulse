@@ -112,3 +112,7 @@ function analyzeGoal() {
 }
 
 document.getElementById('goal-range').addEventListener('input', (e) => {
+    document.getElementById('goal-val').textContent = e.target.value + '%';
+});
+</script>
+{% endblock %}
