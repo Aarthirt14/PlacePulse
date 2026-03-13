@@ -52,3 +52,21 @@
                 <div class="student-card at-risk">
                     <div>
                         <div style="font-size:14px;font-weight:700;color:var(--text)">{{ s.student_name }}</div>
+                        <div style="font-size:11px;color:var(--text3);margin-top:2px">{{ s.severity }}</div>
+                    </div>
+                    <div class="score-chip" style="color:var(--rose);border-color:var(--rose)">{{ s.probability|round|int }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div style="display:flex;flex-direction:column;gap:22px">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title">🔥 Common Weaknesses</div>
+                <div style="margin-top:10px">
+                    {% for label, count in common_weaknesses %}
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.05)">
+                        <span style="font-size:13.5px;color:var(--text2)">{{ label }}</span>
+                        <span class="tag tag-amber">{{ count }} Students</span>
