@@ -44,3 +44,26 @@ def suggest_projects(
     weakness_tags: list[str],
     stream: str = "computer science",
     max_results: int = 6
+) -> list[dict]:
+    """
+    Return up to max_results project suggestions relevant to the student.
+
+    Parameters
+    ----------
+    weakness_tags : list of tag strings from get_weakness_tags()
+    stream        : student's engineering stream (lowercase)
+    max_results   : maximum number of projects to return
+
+    Returns
+    -------
+    list[dict] – each dict has all project fields + 'category_label' & 'category_icon'
+    """
+    data = _load_data()
+    categories = data.get("categories", {})
+    stream_lower = stream.lower().strip()
+
+    # Build priority category order
+    priority_cats = []
+    for tag in weakness_tags:
+        for cat in _WEAKNESS_CATEGORY_MAP.get(tag, []):
+            if cat not in priority_cats:
