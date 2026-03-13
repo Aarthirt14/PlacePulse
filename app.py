@@ -286,3 +286,75 @@ def mentor_dashboard():
             p['weakness_count'] = len(w)
             p['severity'] = weakness_summary(w)
             
+            for wk in w:
+                lbl = wk['label']
+                common_weaknesses[lbl] = common_weaknesses.get(lbl, 0) + 1
+                
+            if p['probability'] < 50 or p['backlogs'] > 0:
+                at_risk.append(p)
+            elif p['probability'] > 80:
+                top_students.append(p)
+        except:
+            continue
+            
+    common_weaknesses = sorted(common_weaknesses.items(), key=lambda x: x[1], reverse=True)[:5]
+    
+    return render_template('mentor.html', 
+                           at_risk=at_risk[:10], 
+                           top_students=top_students[:10],
+                           common_weaknesses=common_weaknesses,
+                           total_students=len(predictions))
+
+@app.route('/report')
+def report_page():
+    return render_template('report.html')
+
+@app.route('/report/download')
+def download_report():
+    # In a real app, we'd pass the result data via session or ID
+    # For now, we'll try to reconstruct from the latest prediction
+    predictions = get_all_predictions()
+    if not predictions:
+        return "No report found", 404
+    
+    latest = predictions[0]
+    
+    # Re-build the full result for the report generator
+    from utils.weakness_detector import detect_weaknesses
+    from utils.career_score import compute_employability_score
+    from utils.recommendation_engine import generate_advanced_recommendations
+    
+    w = detect_weaknesses(latest)
+    cs = compute_employability_score(latest)
+    recs = generate_advanced_recommendations(latest, latest['probability'], w)
+    
+    latest['weaknesses'] = w
+    latest['career_score'] = cs
+    latest['recommendations'] = recs
+    
+    from utils.report_generator import generate_txt_report
+    report_txt = generate_txt_report(latest)
+    
+    return send_file(
+        io.BytesIO(report_txt.encode()),
+        mimetype='text/plain',
+        as_attachment=True,
+        download_name=f"Report_{latest['student_name'].replace(' ','_')}.txt"
+    )
+
+@app.route('/suggestions')
+def suggestions_page():
+    from utils.project_suggester import get_all_categories
+    from utils.recommendation_engine import generate_advanced_recommendations
+    
+    # Get general platforms
+    import json
+    cert_path = os.path.join(app.root_path, 'data', 'certifications.json')
+    platforms = {}
+    if os.path.exists(cert_path):
+        with open(cert_path) as f:
+            platforms = json.load(f).get('platforms', {})
+            
+    return render_template('suggestions.html', platforms=platforms)
+
+@app.route('/skills')
