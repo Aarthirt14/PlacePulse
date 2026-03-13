@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Prediction History – PlaceIQ{% endblock %}
+{% block page_title %}Prediction History{% endblock %}
+{% block page_sub %}All past placement predictions stored in database{% endblock %}
+
+{% block topbar_actions %}
+<a href="/export/predictions" class="btn btn-outline">↓ Export CSV</a>
+<a href="/predict" class="btn btn-primary">◈ New Prediction</a>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+.history-table { font-size:13px; }
+.history-table th { font-size:10.5px; }
+.prob-cell { font-family:var(--mono); font-weight:700; }
+.pred-badge { padding:3px 10px; border-radius:6px; font-size:11px; font-weight:600; }
+.pred-placed { background:rgba(52,211,153,.12); color:var(--emerald); border:1px solid rgba(52,211,153,.25); }
+.pred-not    { background:rgba(251,113,133,.12); color:var(--rose);    border:1px solid rgba(251,113,133,.25); }
+.search-wrap { display:flex; gap:10px; margin-bottom:18px; align-items:center; }
+.search-input {
+    background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius);
+    padding:9px 14px; color:var(--text); font-family:var(--font); font-size:13.5px;
+    outline:none; flex:1; max-width:360px; transition:border-color .15s;
+}
+.search-input:focus { border-color:var(--primary); }
+.filter-select {
+    background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius);
+    padding:9px 12px; color:var(--text); font-family:var(--font); outline:none; cursor:pointer;
+}
+.risk-dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:4px; }
+.expand-btn { background:none; border:none; color:var(--text3); cursor:pointer; font-size:15px; padding:2px 6px; }
+.expand-btn:hover { color:var(--primary); }
+.rec-row td { padding-top:0 !important; }
+.rec-mini { display:flex; flex-wrap:wrap; gap:6px; padding:8px 0; }
+.rec-mini-item {
+    font-size:11px; padding:3px 8px; background:rgba(245,158,11,.08);
+    border:1px solid rgba(245,158,11,.18); color:var(--primary); border-radius:5px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if not predictions %}
+<div class="card" style="text-align:center;padding:60px">
+    <div style="font-size:48px;margin-bottom:14px">📭</div>
+    <h3 style="margin-bottom:8px">No Predictions Yet</h3>
+    <p style="color:var(--text2);margin-bottom:22px">Make your first placement prediction to see history here.</p>
+    <a href="/predict" class="btn btn-primary">◈ Make Prediction</a>
+</div>
+{% else %}
+
+<div class="search-wrap">
+    <input type="text" class="search-input" id="search-input" placeholder="🔍  Search by name, prediction, category…" oninput="filterTable()">
+    <select class="filter-select" id="filter-pred" onchange="filterTable()">
+        <option value="">All Predictions</option>
+        <option value="Placed">Placed Only</option>
+        <option value="Not Placed">Not Placed Only</option>
+    </select>
+    <select class="filter-select" id="filter-cat" onchange="filterTable()">
+        <option value="">All Categories</option>
+        <option value="High Chance">High Chance</option>
+        <option value="Medium Chance">Medium Chance</option>
+        <option value="Low Chance">Low Chance</option>
+    </select>
+    <span style="color:var(--text2);font-size:13px" id="count-label">{{ predictions|length }} records</span>
+</div>
+
+<div class="card" style="padding:0;overflow:hidden">
+    <table class="history-table" id="history-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Time</th>
+                <th>Student</th>
+                <th>CGPA</th>
+                <th>Intern.</th>
+                <th>Apt. Score</th>
+                <th>Probability</th>
+                <th>Risk</th>
+                <th>Category</th>
+                <th>Verdict</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody id="history-body">
+        {% for p in predictions %}
+        <tr class="data-row"
+            data-name="{{ p.student_name|lower }}"
+            data-pred="{{ p.prediction }}"
+            data-cat="{{ p.category }}">
+            <td style="color:var(--text3)">{{ loop.index }}</td>
+            <td style="color:var(--text3);font-size:11px">{{ p.timestamp[:16] if p.timestamp else '–' }}</td>
+            <td style="font-weight:700">{{ p.student_name or 'Anonymous' }}</td>
+            <td>
+                <span class="prob-cell" style="color:{% if p.cgpa >= 8 %}var(--emerald){% elif p.cgpa >= 6.5 %}var(--yellow){% else %}var(--rose){% endif %}">
+                    {{ p.cgpa or '–' }}
+                </span>
+            </td>
+            <td>{{ p.internships or 0 }}</td>
+            <td>{{ p.aptitude_score or '–' }}</td>
+            <td>
+                <span class="prob-cell" style="color:{% if p.probability >= 70 %}var(--emerald){% elif p.probability >= 45 %}var(--yellow){% else %}var(--rose){% endif %}">
+                    {{ p.probability or 0 }}%
+                </span>
+            </td>
+            <td>
+                {% if p.risk_score %}
+                <span class="risk-dot" style="background:{% if p.risk_score > 65 %}var(--rose){% elif p.risk_score > 35 %}var(--yellow){% else %}var(--emerald){% endif %}"></span>{{ p.risk_score }}
+                {% else %}–{% endif %}
+            </td>
+            <td>
+                {% if p.category == 'High Chance' %}
+                <span class="tag tag-green">{{ p.category }}</span>
+                {% elif p.category == 'Medium Chance' %}
+                <span class="tag tag-yellow">{{ p.category }}</span>
+                {% else %}
+                <span class="tag tag-red">{{ p.category }}</span>
+                {% endif %}
+            </td>
+            <td>
+                <span class="pred-badge {% if p.prediction == 'Placed' %}pred-placed{% else %}pred-not{% endif %}">
+                    {{ p.prediction }}
+                </span>
+            </td>
+            <td>
+                <button class="expand-btn" onclick="toggleRecs({{ loop.index }})">▼</button>
+            </td>
+        </tr>
+        <tr id="rec-row-{{ loop.index }}" style="display:none" class="rec-row">
+            <td colspan="11" style="padding:8px 16px 14px;background:var(--bg3)">
+                {% if p.recommendations %}
+                <div class="rec-mini">
+                    {% for rec in p.recommendations[:4] %}
+                    <div class="rec-mini-item">{{ rec.icon }} {{ rec.title }}</div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p style="color:var(--text3);font-size:12px">No recommendations stored.</p>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+function toggleRecs(idx) {
+    const row = document.getElementById('rec-row-' + idx);
+    row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+}
+
+function filterTable() {
+    const search = document.getElementById('search-input').value.toLowerCase();
+    const pred = document.getElementById('filter-pred').value;
+    const cat = document.getElementById('filter-cat').value;
+    const rows = document.querySelectorAll('.data-row');
+    let visible = 0;
+    rows.forEach(row => {
+        const matches = (!search || row.dataset.name.includes(search) || row.dataset.pred.toLowerCase().includes(search) || row.dataset.cat.toLowerCase().includes(search))
+                     && (!pred || row.dataset.pred === pred)
+                     && (!cat  || row.dataset.cat  === cat);
+        row.style.display = matches ? '' : 'none';
+        if (matches) visible++;
+    });
+    document.getElementById('count-label').textContent = visible + ' records';
+}
+</script>
+{% endif %}
+{% endblock %}

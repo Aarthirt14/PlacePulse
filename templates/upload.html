@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% block title %}Upload Dataset – PlaceIQ{% endblock %}
+{% block page_title %}Upload Dataset{% endblock %}
+{% block page_sub %}Upload your college's CSV dataset to retrain the model{% endblock %}
+
+{% block extra_head %}
+<style>
+.upload-zone {
+    border:2px dashed var(--border2); border-radius:var(--radius-lg);
+    padding:56px 36px; text-align:center; cursor:pointer;
+    transition:all .22s ease; position:relative;
+    background:var(--card);
+}
+.upload-zone:hover, .upload-zone.drag-over {
+    border-color:var(--primary);
+    background:rgba(245,158,11,.04);
+    box-shadow:0 0 0 4px rgba(245,158,11,.08);
+}
+.upload-zone .uz-icon { font-size:52px; margin-bottom:14px; display:block; }
+.upload-zone h3 { font-size:19px; font-weight:700; margin-bottom:7px; }
+.upload-zone p { color:var(--text2); font-size:14px; }
+#file-input { display:none; }
+.upload-progress {
+    display:none; padding:22px; background:var(--bg3);
+    border:1px solid var(--border); border-radius:var(--radius-lg); margin-top:18px;
+}
+.progress-bar-wrap { background:rgba(255,255,255,.07); border-radius:100px; height:7px; overflow:hidden; margin:11px 0; }
+.progress-bar { height:7px; background:linear-gradient(90deg,var(--primary),var(--rose)); border-radius:100px; width:0; transition:width .3s ease; }
+.step-list { display:flex; flex-direction:column; gap:14px; margin-top:8px; }
+.step-item { display:flex; gap:12px; align-items:flex-start; }
+.step-num {
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700; flex-shrink:0;
+}
+.col-schema { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:14px; }
+.col-item {
+    background:var(--bg3); border:1px solid var(--border); border-radius:var(--radius);
+    padding:11px 14px;
+}
+.col-item .c-name { font-size:12.5px; font-weight:700; font-family:var(--mono); color:var(--primary); }
+.col-item .c-desc { font-size:11.5px; color:var(--text2); margin-top:2px; }
+.col-item .c-req { font-size:10px; padding:2px 6px; border-radius:4px; background:rgba(251,113,133,.15); color:var(--rose); display:inline-block; margin-top:4px; }
+.col-item .c-opt { font-size:10px; padding:2px 6px; border-radius:4px; background:rgba(56,189,248,.12); color:var(--sky); display:inline-block; margin-top:4px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="grid-2" style="align-items:start">
+    <div>
+        <div class="card" style="margin-bottom:18px">
+            <div class="card-title">⤒ Upload CSV Dataset</div>
+            <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+                <span class="uz-icon">📊</span>
+                <h3>Drop your CSV here</h3>
+                <p>or click to browse<br><span style="font-size:12px;color:var(--text3)">Max 16MB · CSV format only</span></p>
+                <input type="file" id="file-input" accept=".csv">
+            </div>
+
+            <div class="upload-progress" id="upload-progress">
+                <div style="display:flex;align-items:center;gap:10px">
+                    <span id="file-name" style="font-size:14px;color:var(--text2)">Uploading…</span>
+                    <span id="upload-status" class="tag tag-amber">Processing</span>
+                </div>
+                <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+                <p id="progress-message" style="font-size:13px;color:var(--text2)">Validating dataset…</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">⚙ What Happens After Upload?</div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num" style="background:rgba(245,158,11,.15);color:var(--primary)">1</div>
+                    <div>
+                        <div style="font-weight:700;margin-bottom:3px">Data Cleaning & Validation</div>
+                        <p style="font-size:13px;color:var(--text2)">Missing values handled, columns standardized, data types validated.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background:rgba(56,189,248,.12);color:var(--sky)">2</div>
+                    <div>
+                        <div style="font-weight:700;margin-bottom:3px">Feature Engineering</div>
+                        <p style="font-size:13px;color:var(--text2)">Academic, experience, and skill scores computed from raw features.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background:rgba(52,211,153,.12);color:var(--emerald)">3</div>
+                    <div>
+                        <div style="font-weight:700;margin-bottom:3px">EDA Graph Generation</div>
+                        <p style="font-size:13px;color:var(--text2)">All EDA graphs regenerated from your custom dataset.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background:rgba(251,113,133,.12);color:var(--rose)">4</div>
+                    <div>
+                        <div style="font-weight:700;margin-bottom:3px">Model Retraining</div>
+                        <p style="font-size:13px;color:var(--text2)">All 4 models retrained and best one selected automatically.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="card">
+            <div class="card-title">📋 Expected Column Schema</div>
+            <p style="font-size:13px;color:var(--text2);margin-bottom:14px">The system auto-detects columns. Required columns are marked.</p>
+            <div class="col-schema">
+                <div class="col-item">
+                    <div class="c-name">CGPA</div>
+                    <div class="c-desc">Cumulative GPA (0–10)</div>
+                    <span class="c-req">Required</span>
+                </div>
+                <div class="col-item">
+                    <div class="c-name">PlacementStatus</div>
+                    <div class="c-desc">0/1 or Placed/Not Placed</div>
+                    <span class="c-req">Required</span>
+                </div>
+                <div class="col-item">
+                    <div class="c-name">Internships</div>
+                    <div class="c-desc">Count of internships done</div>
+                    <span class="c-req">Required</span>
+                </div>
+                <div class="col-item">
+                    <div class="c-name">AptitudeTestScore</div>
+                    <div class="c-desc">Score out of 100</div>
+                    <span class="c-req">Required</span>
+                </div>
+                <div class="col-item">
+                    <div class="c-name">SSC_Marks</div>
+                    <div class="c-desc">10th grade marks (%)</div>
+                    <span class="c-opt">Optional</span>
+                </div>
+                <div class="col-item">
+                    <div class="c-name">HSC_Marks</div>
+                    <div class="c-desc">12th grade marks (%)</div>
+                    <span class="c-opt">Optional</span>
+                </div>
+                <div class="col-item">
+                    <div class="c-name">Projects</div>
+                    <div class="c-desc">Number of projects</div>
+                    <span class="c-opt">Optional</span>
+                </div>
+                <div class="col-item">
+                    <div class="c-name">Stream / Branch</div>
+                    <div class="c-desc">Engineering branch name</div>
+                    <span class="c-opt">Optional</span>
+                </div>
+                <div class="col-item">
+                    <div class="c-name">Backlogs</div>
+                    <div class="c-desc">Number of backlogs</div>
+                    <span class="c-opt">Optional</span>
+                </div>
+                <div class="col-item">
+                    <div class="c-name">SoftSkillsRating</div>
+                    <div class="c-desc">Rating 1–5</div>
+                    <span class="c-opt">Optional</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const zone = document.getElementById('upload-zone');
+const fileInput = document.getElementById('file-input');
+
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+});
+fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) handleFile(fileInput.files[0]);
+});
+
+function handleFile(file) {
+    if (!file.name.endsWith('.csv')) {
+        showToast('Please upload a CSV file only', 'error');
+        return;
+    }
+
+    document.getElementById('file-name').textContent = file.name;
+    const progress = document.getElementById('upload-progress');
+    progress.style.display = 'block';
+
+    const bar = document.getElementById('progress-bar');
+    const msg = document.getElementById('progress-message');
+    const status = document.getElementById('upload-status');
+
+    const steps = [
+        [20, 'Uploading file…'],
+        [40, 'Cleaning and validating data…'],
+        [60, 'Generating EDA graphs…'],
+        [80, 'Training models…'],
+        [95, 'Selecting best model…']
+    ];
+
+    let si = 0;
+    const interval = setInterval(() => {
+        if (si < steps.length) {
+            bar.style.width = steps[si][0] + '%';
+            msg.textContent = steps[si][1];
+            si++;
+        }
+    }, 1500);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    fetch('/upload', { method: 'POST', body: formData })
+        .then(r => r.json())
+        .then(d => {
+            clearInterval(interval);
+            bar.style.width = '100%';
+            if (d.success) {
+                msg.textContent = d.message;
+                status.textContent = '✓ Success';
+                status.className = 'tag tag-green';
+                showToast('Dataset uploaded and model retrained!', 'success');
+                setTimeout(() => window.location.href = '/dashboard', 2500);
+            } else {
+                msg.textContent = 'Error: ' + d.error;
+                status.textContent = '✕ Failed';
+                status.className = 'tag tag-red';
+                showToast('Upload failed: ' + d.error, 'error');
+            }
+        })
+        .catch(() => {
+            clearInterval(interval);
+            showToast('Upload failed. Please try again.', 'error');
+            status.textContent = '✕ Error';
+            status.className = 'tag tag-red';
+        });
+}
+</script>
+{% endblock %}

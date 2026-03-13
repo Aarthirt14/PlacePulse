@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Analytics – PlaceIQ{% endblock %}
+{% block page_title %}Admin Analytics{% endblock %}
+{% block page_sub %}Prediction statistics, model comparisons, and system insights{% endblock %}
+
+{% block topbar_actions %}
+<a href="/export/predictions" class="btn btn-outline">↓ Export CSV</a>
+<a href="/predict" class="btn btn-primary">◈ Predict</a>
+{% endblock %}
+
+{% block content %}
+<!-- Prediction Stats -->
+<div class="stat-grid" style="margin-bottom:26px">
+    <div class="stat-card" style="--accent-color:var(--primary)">
+        <span class="stat-icon">◈</span>
+        <div class="stat-value">{{ analytics.total_predictions or 0 }}</div>
+        <div class="stat-label">Total Predictions</div>
+    </div>
+    <div class="stat-card" style="--accent-color:var(--emerald)">
+        <span class="stat-icon">✓</span>
+        <div class="stat-value" style="color:var(--emerald)">{{ analytics.placed_count or 0 }}</div>
+        <div class="stat-label">Predicted Placed</div>
+    </div>
+    <div class="stat-card" style="--accent-color:var(--rose)">
+        <span class="stat-icon">✕</span>
+        <div class="stat-value" style="color:var(--rose)">{{ analytics.not_placed_count or 0 }}</div>
+        <div class="stat-label">Predicted Not Placed</div>
+    </div>
+    <div class="stat-card" style="--accent-color:var(--sky)">
+        <span class="stat-icon">⟡</span>
+        <div class="stat-value">{{ analytics.avg_probability or 0 }}%</div>
+        <div class="stat-label">Avg Probability</div>
+    </div>
+    <div class="stat-card" style="--accent-color:var(--violet)">
+        <span class="stat-icon">↗</span>
+        <div class="stat-value">{{ analytics.placement_rate or 0 }}%</div>
+        <div class="stat-label">Prediction Placement Rate</div>
+    </div>
+    <div class="stat-card" style="--accent-color:var(--yellow)">
+        <span class="stat-icon">⚠</span>
+        <div class="stat-value">{{ analytics.avg_risk_score or 0 }}</div>
+        <div class="stat-label">Avg Risk Score</div>
+    </div>
+</div>
+
+<div class="grid-2" style="margin-bottom:26px">
+    <div class="card">
+        <div class="card-title">📊 Prediction Distribution</div>
+        <canvas id="pred-chart" height="220"></canvas>
+    </div>
+    <div class="card">
+        <div class="card-title">🤖 Model Performance</div>
+        {% if metrics and metrics.models %}
+        <canvas id="model-radar" height="220"></canvas>
+        {% else %}
+        <p style="color:var(--text2);padding:40px;text-align:center">No model metrics yet. Train a model first.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% if metrics and metrics.models %}
+<div class="card" style="margin-bottom:26px">
+    <div class="card-title">📋 Detailed Model Comparison</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1 Score</th><th>AUC-ROC</th><th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for m in metrics.models %}
+        <tr>
+            <td style="font-weight:700">{{ m.name }}</td>
+            <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                    <div class="progress-wrap" style="width:80px"><div class="progress-fill" style="width:{{ (m.accuracy*100)|round(0) }}%;background:var(--sky)"></div></div>
+                    <span style="font-family:var(--mono);font-size:12px">{{ (m.accuracy*100)|round(1) }}%</span>
+                </div>
+            </td>
+            <td><span style="font-family:var(--mono)">{{ (m.precision*100)|round(1) }}%</span></td>
+            <td><span style="font-family:var(--mono)">{{ (m.recall*100)|round(1) }}%</span></td>
+            <td><span style="font-family:var(--mono);color:var(--primary)">{{ (m.f1*100)|round(1) }}%</span></td>
+            <td><span style="font-family:var(--mono)">{{ m.auc }}</span></td>
+            <td>
+                {% if m.name == metrics.best_model %}
+                <span class="tag tag-green">✓ Best</span>
+                {% else %}
+                <span class="tag tag-amber">Active</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<div class="grid-2" style="margin-bottom:26px">
+    <div class="card">
+        <div class="card-title">📊 Model Comparison Chart</div>
+        <img src="/static/graphs/model_comparison.png" style="width:100%;border-radius:8px" onerror="this.parentElement.style.display='none'" />
+    </div>
+    <div class="card">
+        <div class="card-title">📈 ROC Curve</div>
+        <img src="/static/graphs/roc_curve.png" style="width:100%;border-radius:8px" onerror="this.parentElement.style.display='none'" />
+    </div>
+</div>
+
+{% if insights %}
+<div class="card">
+    <div class="card-title">✦ Dataset Insights</div>
+    {% for ins in insights %}
+    <div style="padding:11px 0;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start">
+        <span style="font-size:18px">{{ ins.split(' ')[0] }}</span>
+        <p style="font-size:13px;color:var(--text2);line-height:1.65">{{ ins }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<script>
+// Prediction donut
+const predCtx = document.getElementById('pred-chart');
+if (predCtx) {
+    new Chart(predCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Placed', 'Not Placed'],
+            datasets: [{
+                data: [{{ analytics.placed_count or 0 }}, {{ analytics.not_placed_count or 0 }}],
+                backgroundColor: ['#34d399', '#fb7185'],
+                borderWidth: 0, borderRadius: 4
+            }]
+        },
+        options: {
+            cutout: '70%',
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#9e9889', font: { size: 13 } } }
+            }
+        }
+    });
+}
+
+{% if metrics and metrics.models %}
+const radarCtx = document.getElementById('model-radar');
+if (radarCtx) {
+    new Chart(radarCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Accuracy', 'Precision', 'Recall', 'F1'],
+            datasets: [
+                {% for m in metrics.models %}
+                {
+                    label: '{{ m.name }}',
+                    data: [{{ (m.accuracy*100)|round(1) }}, {{ (m.precision*100)|round(1) }}, {{ (m.recall*100)|round(1) }}, {{ (m.f1*100)|round(1) }}],
+                    borderWidth: 2, pointRadius: 4, fill: true,
+                    borderColor: ['#f59e0b','#fb7185','#34d399','#38bdf8'][{{ loop.index0 }}],
+                    backgroundColor: ['rgba(245,158,11,.1)','rgba(251,113,133,.1)','rgba(52,211,153,.1)','rgba(56,189,248,.1)'][{{ loop.index0 }}]
+                },
+                {% endfor %}
+            ]
+        },
+        options: {
+            scales: { r: { beginAtZero: false, min: 40, max: 100, grid: { color: '#2d2d2d' }, pointLabels: { color: '#9e9889' }, ticks: { color: '#5a5650', backdropColor: 'transparent' } } },
+            plugins: { legend: { position: 'bottom', labels: { color: '#9e9889', font: { size: 12 } } } }
+        }
+    });
+}
+{% endif %}
+</script>
+{% endblock %}
