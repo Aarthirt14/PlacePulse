@@ -334,3 +334,6 @@ def weakness_summary(weaknesses: list[dict]) -> dict:
     return summary
 
 
+def get_weakness_tags(weaknesses: list[dict]) -> list[str]:
+    """Return unique tag strings for matching against JSON data."""
+    return list({w["tag"] for w in weaknesses})
