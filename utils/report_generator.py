@@ -96,6 +96,15 @@ def generate_txt_report(result: dict) -> str:
         "",
     ]
 
+    # ---- AI Executive Summary ----
+    ai_summary = result.get("ai_summary")
+    if ai_summary:
+        lines += [
+            _section("AI Executive Summary"),
+            _wrap(ai_summary, indent=2),
+            "",
+        ]
+
     # ---- Profile Inputs ----
     profile_keys = [
         ("cgpa",             "CGPA"),
