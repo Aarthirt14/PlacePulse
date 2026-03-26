@@ -50,20 +50,38 @@ def prepare_input(data, feature_cols, scaler):
     return X_scaled_df, row
 
 def compute_shap_approximation(model, X_scaled, feature_cols, base_value=0.5):
-    """Approximate SHAP values using feature permutation."""
-    import pandas as pd
+    """Compute real SHAP values or fall back to permutation-based approximation."""
     try:
-        df_base = pd.DataFrame(X_scaled, columns=feature_cols)
-        pred_base = model.predict_proba(df_base)[0][1]
-        shap_vals = []
-        for i, col in enumerate(feature_cols):
-            df_perm = df_base.copy()
-            df_perm[col] = 0  # zero out feature (mean of scaled data = 0)
-            pred_without = model.predict_proba(df_perm)[0][1]
-            shap_vals.append(float(pred_base - pred_without))
-        return shap_vals
+        import shap
+        # Use KernelExplainer for general models (e.g. LogisticRegression) 
+        # but only for the specific instance to keep it fast
+        background = np.zeros((1, len(feature_cols))) # mean backround
+        explainer = shap.KernelExplainer(model.predict_proba, background)
+        shap_values = explainer.shap_values(X_scaled, silent=True)
+        
+        # shap_values[1] is for the 'Placed' class (index 1)
+        if isinstance(shap_values, list):
+            res = shap_values[1][0].tolist()
+        else:
+            # For some models it might return a single array if it's binary
+            res = shap_values[0].tolist()
+        return res
+        
     except Exception as e:
-        return [0.0] * len(feature_cols)
+        print(f"SHAP Error: {e}")
+        # Fallback to permutation approximation
+        try:
+            df_base = pd.DataFrame(X_scaled, columns=feature_cols)
+            pred_base = model.predict_proba(df_base)[0][1]
+            shap_vals = []
+            for i, col in enumerate(feature_cols):
+                df_perm = df_base.copy()
+                df_perm[col] = 0  # zero out feature (mean of scaled data = 0)
+                pred_without = model.predict_proba(df_perm)[0][1]
+                shap_vals.append(float(pred_base - pred_without))
+            return shap_vals
+        except:
+            return [0.0] * len(feature_cols)
 
 def generate_recommendations(data, probability, feature_importance):
     """AI-powered recommendation engine."""
