@@ -1,290 +1,348 @@
 {% extends "base.html" %}
-{% block title %}Predict Placement – PlaceIQ{% endblock %}
-{% block page_title %}Predict Placement{% endblock %}
-{% block page_sub %}Enter student profile data for AI analysis{% endblock %}
+{% block title %}Predict Placement — PlaceIQ{% endblock %}
+{% block page_title %}Placement Predictor{% endblock %}
+{% block page_sub %}Feed the neural engine — get an AI-driven placement probability in seconds.{% endblock %}
 
 {% block extra_head %}
 <style>
-.predict-grid { display:grid; grid-template-columns:1fr 330px; gap:22px; }
-.form-section {
-    background:var(--card); border:1px solid var(--border);
-    border-radius:var(--radius-lg); padding:22px; margin-bottom:18px;
+.predict-layout { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; }
+
+/* FORM CARD */
+.form-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--r-xl); padding: 36px; position: relative; overflow: hidden;
 }
-.section-title {
-    font-size:11.5px; font-weight:700; color:var(--primary);
-    text-transform:uppercase; letter-spacing:.1em; margin-bottom:18px;
-    display:flex; align-items:center; gap:8px;
+.form-card::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+        radial-gradient(ellipse 80% 50% at 0% 100%, rgba(245,158,11,0.06), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 100% 0%,  rgba(236,72,153,0.05), transparent 55%);
 }
-.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-.form-group { display:flex; flex-direction:column; gap:6px; }
-.form-group label { font-size:12px; font-weight:600; color:var(--text2); }
-.form-group input, .form-group select {
-    background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius);
-    padding:10px 13px; color:var(--text); font-family:var(--font); font-size:13.5px;
-    transition:all .15s ease; outline:none; appearance:none;
+.form-card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), var(--pink), transparent);
 }
-.form-group input:focus, .form-group select:focus {
-    border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-glow);
+
+.section-label {
+    font-size: 9.5px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-l); margin-bottom: 18px; margin-top: 28px;
+    display: flex; align-items: center; gap: 8px;
 }
-.form-group input::placeholder { color:var(--text3); }
-.form-group select { cursor:pointer; }
-.range-wrap { display:flex; flex-direction:column; gap:7px; }
-.range-wrap input[type=range] { accent-color:var(--primary); cursor:pointer; width:100%; }
-.range-val { font-family:var(--mono); font-size:15px; font-weight:600; color:var(--primary); }
-.help-panel {
-    background:var(--card); border:1px solid var(--border);
-    border-radius:var(--radius-lg); padding:20px; position:sticky; top:76px;
+.section-label::before { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.form-group { margin-bottom: 20px; }
+.form-label  { font-size: 12px; font-weight: 700; color: var(--text-m); margin-bottom: 8px; display: block; }
+.form-input  {
+    width: 100%; padding: 12px 16px; font-size: 14px; font-family: var(--font-b);
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    border-radius: var(--r-md); color: var(--text-h); outline: none;
+    transition: var(--t);
 }
-.tip-item {
-    display:flex; gap:10px; align-items:flex-start;
-    margin-bottom:13px; padding-bottom:13px; border-bottom:1px solid var(--border);
+.form-input:focus {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.1), 0 0 20px rgba(245,158,11,0.06);
+    background: rgba(245,158,11,0.03);
 }
-.tip-item:last-child { border-bottom:none; margin-bottom:0; }
-.tip-item .t-icon { font-size:17px; flex-shrink:0; }
-.tip-item .t-text { font-size:12px; color:var(--text2); line-height:1.65; }
-.tip-item .t-title { font-size:13px; font-weight:600; color:var(--text); margin-bottom:2px; }
-.submit-btn {
-    width:100%; padding:14px;
-    background:linear-gradient(135deg, var(--primary), #fb7185);
-    border:none; border-radius:var(--radius-lg); color:#111; font-size:15px;
-    font-weight:800; cursor:pointer; transition:all .2s ease; font-family:var(--font);
-    letter-spacing:.01em;
+.form-input option { background: #0a0a14; }
+
+/* RANGE SLIDER */
+.slider-wrap { position: relative; }
+.slider-val  {
+    position: absolute; right: 0; top: -28px;
+    font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--amber);
+    background: rgba(245,158,11,0.1); padding: 2px 10px; border-radius: 100px;
+    border: 1px solid rgba(245,158,11,0.2);
 }
-.submit-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(245,158,11,.35); }
-.submit-btn:disabled { opacity:.55; cursor:not-allowed; transform:none; box-shadow:none; }
+input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 4px; border-radius: 100px;
+    background: rgba(255,255,255,0.06); outline: none; cursor: pointer;
+    background-image: linear-gradient(var(--amber), var(--amber));
+    background-size: 50% 100%; background-repeat: no-repeat;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+    background: var(--amber); cursor: pointer; border: 3px solid #02020a;
+    box-shadow: 0 0 12px var(--amber-g), 0 0 24px rgba(245,158,11,0.2);
+    transition: var(--t);
+}
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* SUBMIT */
+.predict-btn {
+    width: 100%; padding: 16px; border-radius: var(--r-lg); border: none; cursor: pointer;
+    font-family: var(--font-h); font-size: 15px; font-weight: 800;
+    background: linear-gradient(135deg, var(--amber), #d97706);
+    color: #000;
+    box-shadow: 0 6px 28px rgba(245,158,11,0.4), 0 0 50px rgba(245,158,11,0.1);
+    transition: var(--t); margin-top: 8px; position: relative; overflow: hidden;
+}
+.predict-btn::before {
+    content: '';
+    position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+.predict-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(245,158,11,0.5); }
+.predict-btn:hover::before { left: 200%; }
+.predict-btn:active { transform: translateY(0); }
+
+/* SIDEBAR GUIDE */
+.guide-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--r-xl); padding: 28px; position: sticky; top: 90px;
+}
+.guide-item { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.guide-item:last-child { border-bottom: none; padding-bottom: 0; }
+.guide-key   { font-size: 12px; font-weight: 800; color: var(--text-h); margin-bottom: 5px; }
+.guide-desc  { font-size: 12px; color: var(--text-m); line-height: 1.6; }
+
+/* LOADING OVERLAY */
+#loading-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(2,2,10,0.92); backdrop-filter: blur(16px);
+    display: none; align-items: center; justify-content: center;
+    flex-direction: column; gap: 24px;
+}
+#loading-overlay.show { display: flex; }
+.loader-ring {
+    width: 72px; height: 72px; border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.05);
+    border-top-color: var(--amber);
+    border-right-color: var(--pink);
+    animation: spin 0.9s linear infinite;
+}
+@keyframes spin  { to { transform: rotate(360deg); } }
+.loader-text { font-family: var(--font-h); font-size: 16px; font-weight: 700; color: var(--text-m); }
+.loader-sub  { font-size: 12px; color: var(--text-l); }
+
+@media(max-width:1100px) { .predict-layout { grid-template-columns: 1fr; } }
+@media(max-width:640px)  { .form-grid-2 { grid-template-columns: 1fr; } }
 </style>
 {% endblock %}
 
-{% block topbar_actions %}
-<a href="/history" class="btn btn-outline">⊙ History</a>
-<a href="/dashboard" class="btn btn-outline">⊞ Dashboard</a>
-{% endblock %}
-
 {% block content %}
-<div class="predict-grid">
-    <div>
-        <form id="predict-form">
-            <!-- Student Info -->
-            <div class="form-section">
-                <div class="section-title">👤 Student Information</div>
-                <div class="form-grid">
-                    <div class="form-group" style="grid-column:1/-1">
-                        <label>Student Name</label>
-                        <input type="text" name="student_name" placeholder="Enter student name (optional)" />
+<div class="predict-layout">
+
+    <!-- FORM ─────────────────────────────────────────── -->
+    <div class="form-card">
+        <form id="pred-form">
+
+            <div class="section-label">Personalisation &amp; Core Info</div>
+            <div class="form-group">
+                <label class="form-label">Student Name</label>
+                <input class="form-input" type="text" name="student_name" placeholder="e.g. Riya Sharma" required>
+            </div>
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label">Stream / Branch</label>
+                    <select class="form-input" name="stream">
+                        <option value="CSE">Computer Science</option>
+                        <option value="ECE">Electronics</option>
+                        <option value="ME">Mechanical</option>
+                        <option value="CE">Civil</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="EEE">Electrical</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Active Backlogs</label>
+                    <select class="form-input" name="backlogs">
+                        <option value="0">None (Clean 🟢)</option>
+                        <option value="1">1 Backlog</option>
+                        <option value="2">2 Backlogs</option>
+                        <option value="3">3+ Backlogs ⚠</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-label">Academic &amp; Aptitude Metrics</div>
+
+            <div class="form-group">
+                <label class="form-label">CGPA</label>
+                <div class="slider-wrap">
+                    <span class="slider-val" id="cgpa-val">7.00</span>
+                    <input type="range" name="cgpa" id="cgpa-slider" min="4" max="10" step="0.01" value="7"
+                           oninput="updateSlider(this,'cgpa-val','',2)">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Aptitude / Overall Score <span style="color:var(--text-l)">(0–100)</span></label>
+                <div class="slider-wrap">
+                    <span class="slider-val" id="apt-val">65</span>
+                    <input type="range" name="aptitude_score" id="apt-slider" min="0" max="100" step="1" value="65"
+                           oninput="updateSlider(this,'apt-val','',0)">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Academic Score <span style="color:var(--text-l)">(e.g. 70)</span></label>
+                <div class="slider-wrap">
+                    <span class="slider-val" id="ac-val">70</span>
+                    <input type="range" name="academic_score" id="ac-slider" min="0" max="100" step="1" value="70"
+                           oninput="updateSlider(this,'ac-val','',0)">
+                </div>
+            </div>
+
+            <div class="section-label">Experience &amp; Exposure</div>
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label">Internships <span style="color:var(--text-l)">(count)</span></label>
+                    <div class="slider-wrap">
+                        <span class="slider-val" id="int-val">1</span>
+                        <input type="range" name="internships" id="int-slider" min="0" max="5" step="1" value="1"
+                               oninput="updateSlider(this,'int-val','',0)">
                     </div>
-                    <div class="form-group">
-                        <label>Stream / Branch</label>
-                        <select name="stream_encoded">
-                            <option value="0">Computer Science</option>
-                            <option value="1">Electronics</option>
-                            <option value="2">Mechanical</option>
-                            <option value="3">Civil</option>
-                            <option value="4">Information Technology</option>
-                        </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Projects Completed</label>
+                    <div class="slider-wrap">
+                        <span class="slider-val" id="proj-val">2</span>
+                        <input type="range" name="projects" id="proj-slider" min="0" max="10" step="1" value="2"
+                               oninput="updateSlider(this,'proj-val','',0)">
                     </div>
-                    <div class="form-group">
-                        <label>Gender</label>
-                        <select name="gender_encoded">
-                            <option value="0">Male</option>
-                            <option value="1">Female</option>
-                        </select>
+                </div>
+            </div>
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label">Workshops / Certifications</label>
+                    <div class="slider-wrap">
+                        <span class="slider-val" id="ws-val">2</span>
+                        <input type="range" name="workshops_certifications" min="0" max="10" step="1" value="2"
+                               oninput="updateSlider(this,'ws-val','',0)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Soft Skills Competency <span style="color:var(--text-l)">(0–5)</span></label>
+                    <div class="slider-wrap">
+                        <span class="slider-val" id="ss-val">3</span>
+                        <input type="range" name="soft_skills_rating" min="0" max="5" step="0.5" value="3"
+                               oninput="updateSlider(this,'ss-val','',1)">
+                    </div>
+                </div>
+            </div>
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label">Extra-Curricular Activities</label>
+                    <div class="slider-wrap">
+                        <span class="slider-val" id="ec-val">2</span>
+                        <input type="range" name="extracurricular_activities" min="0" max="10" step="1" value="2"
+                               oninput="updateSlider(this,'ec-val','',0)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">SSC (10th) Percentage</label>
+                    <div class="slider-wrap">
+                        <span class="slider-val" id="ssc-val">75</span>
+                        <input type="range" name="ssc_marks" min="40" max="100" step="0.1" value="75"
+                               oninput="updateSlider(this,'ssc-val','',0)">
+                    </div>
+                </div>
+            </div>
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label">HSC (12th) Percentage</label>
+                    <div class="slider-wrap">
+                        <span class="slider-val" id="hsc-val">75</span>
+                        <input type="range" name="hsc_marks" min="40" max="100" step="0.1" value="75"
+                               oninput="updateSlider(this,'hsc-val','',0)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Overall Score (Global)</label>
+                    <div class="slider-wrap">
+                        <span class="slider-val" id="os-val">70</span>
+                        <input type="range" name="overall_score" min="0" max="100" step="1" value="70"
+                               oninput="updateSlider(this,'os-val','',0)">
                     </div>
                 </div>
             </div>
 
-            <!-- Academic -->
-            <div class="form-section">
-                <div class="section-title">🎓 Academic Profile</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>CGPA (0 – 10)</label>
-                        <div class="range-wrap">
-                            <input type="range" name="cgpa" min="4" max="10" step="0.1" value="7.5" oninput="updateVal(this,'cgpa-val')">
-                            <div>Current: <span class="range-val" id="cgpa-val">7.5</span></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>SSC Marks (%)</label>
-                        <div class="range-wrap">
-                            <input type="range" name="ssc_marks" min="40" max="100" step="1" value="72" oninput="updateVal(this,'ssc-val')">
-                            <div>Current: <span class="range-val" id="ssc-val">72</span>%</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>HSC Marks (%)</label>
-                        <div class="range-wrap">
-                            <input type="range" name="hsc_marks" min="40" max="100" step="1" value="70" oninput="updateVal(this,'hsc-val')">
-                            <div>Current: <span class="range-val" id="hsc-val">70</span>%</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Number of Backlogs</label>
-                        <select name="backlogs">
-                            <option value="0">0 – No Backlogs</option>
-                            <option value="1">1 Backlog</option>
-                            <option value="2">2 Backlogs</option>
-                            <option value="3">3+ Backlogs</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Experience -->
-            <div class="form-section">
-                <div class="section-title">💼 Experience & Projects</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Internships Completed</label>
-                        <select name="internships">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3+</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Projects Completed</label>
-                        <select name="projects">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5+</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Workshops / Certifications</label>
-                        <select name="workshops">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4+</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Extracurricular Activities</label>
-                        <select name="extracurricular">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Skills -->
-            <div class="form-section">
-                <div class="section-title">🧠 Skills Assessment</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Aptitude Test Score (0–100)</label>
-                        <div class="range-wrap">
-                            <input type="range" name="aptitude_score" min="20" max="100" step="1" value="65" oninput="updateVal(this,'apt-val')">
-                            <div>Current: <span class="range-val" id="apt-val">65</span>/100</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Soft Skills Rating (1–5)</label>
-                        <div class="range-wrap">
-                            <input type="range" name="soft_skills" min="1" max="5" step="0.5" value="3.5" oninput="updateVal(this,'soft-val')">
-                            <div>Current: <span class="range-val" id="soft-val">3.5</span>/5</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Placement Training Attended</label>
-                        <select name="placement_training">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <button type="submit" class="submit-btn" id="submit-btn">
-                ◈ Analyze Placement Probability
+            <button type="submit" class="predict-btn">
+                ✦ Analyse Placement Probability
             </button>
         </form>
     </div>
 
-    <!-- Help Panel -->
+    <!-- GUIDE SIDEBAR ────────────────────────────────── -->
     <div>
-        <div class="help-panel">
-            <div class="card-title" style="margin-bottom:16px">💡 Scoring Guide</div>
-            <div class="tip-item">
-                <div class="t-icon">🎓</div>
-                <div>
-                    <div class="t-title">CGPA</div>
-                    <div class="t-text">Most impactful factor. 8.0+ is a strong advantage. Below 6.5 is high risk.</div>
-                </div>
+        <div class="guide-card">
+            <div class="card-title">Analytics Guide</div>
+            <div class="guide-item">
+                <div class="guide-key">🎓 CGPA vs Placement</div>
+                <div class="guide-desc">Students above 8.0 CGPA see a 58.9% placement rate vs 49% below. Every 0.5 increase significantly boosts probability.</div>
             </div>
-            <div class="tip-item">
-                <div class="t-icon">💼</div>
-                <div>
-                    <div class="t-title">Internships</div>
-                    <div class="t-text">2nd most impactful. Even 1 internship boosts chances by ~55%.</div>
-                </div>
+            <div class="guide-item">
+                <div class="guide-key">🏭 Internship Impact</div>
+                <div class="guide-desc">1+ internships → 54.5% rate. 2+ internships → 57.6% rate. Real-world exposure is critical.</div>
             </div>
-            <div class="tip-item">
-                <div class="t-icon">🧠</div>
-                <div>
-                    <div class="t-title">Aptitude Score</div>
-                    <div class="t-text">Companies filter via aptitude tests. Score 75+ strongly preferred.</div>
-                </div>
+            <div class="guide-item">
+                <div class="guide-key">🔧 Projects Matter</div>
+                <div class="guide-desc">3+ distinct projects yield a 59.5% rate. Domain diversity adds extra signal.</div>
             </div>
-            <div class="tip-item">
-                <div class="t-icon">⚠</div>
-                <div>
-                    <div class="t-title">Backlogs</div>
-                    <div class="t-text">Zero backlogs is critical. Even 1 can disqualify from many companies.</div>
-                </div>
+            <div class="guide-item">
+                <div class="guide-key">⚠ Backlogs Are Critical</div>
+                <div class="guide-desc">Clean records show 59% placement vs 45.1% with backlogs — a major predictor.</div>
             </div>
-            <div class="tip-item">
-                <div class="t-icon">🛠</div>
-                <div>
-                    <div class="t-title">Projects</div>
-                    <div class="t-text">3+ relevant projects demonstrate practical skills in interviews.</div>
-                </div>
+            <div class="guide-item">
+                <div class="guide-key">📡 Model Used</div>
+                <div class="guide-desc">Ensemble of Logistic Regression, Random Forest, Gradient Boosting, and SVM models.</div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- LOADING OVERLAY ───────────────────────────────── -->
+<div id="loading-overlay">
+    <div class="loader-ring"></div>
+    <div class="loader-text">Analysing Neural Pathways…</div>
+    <div class="loader-sub">Ensemble models computing your probability</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
 <script>
-function updateVal(input, id) {
-    document.getElementById(id).textContent = input.value;
+function updateSlider(el, valId, suffix, decimals) {
+    const v = parseFloat(el.value).toFixed(decimals);
+    document.getElementById(valId).textContent = v + suffix;
+    const pct = (el.value - el.min) / (el.max - el.min) * 100;
+    el.style.backgroundSize = pct + '% 100%';
 }
 
-document.getElementById('predict-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.textContent = '⏳ Analyzing…';
+// init all sliders
+document.querySelectorAll('input[type=range]').forEach(el => {
+    const pct = (el.value - el.min) / (el.max - el.min) * 100;
+    el.style.backgroundSize = pct + '% 100%';
+});
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+document.getElementById('pred-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const overlay = document.getElementById('loading-overlay');
+    overlay.classList.add('show');
+
+    const fd   = new FormData(e.target);
+    const data = Object.fromEntries(fd.entries());
 
     try {
         const res = await fetch('/predict', {
             method: 'POST',
-            headers: {'Content-Type':'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
         const result = await res.json();
-
         if (result.error) {
-            showToast('Error: ' + result.error, 'error');
-            btn.disabled = false;
-            btn.textContent = '◈ Analyze Placement Probability';
+            overlay.classList.remove('show');
+            showToast('⚠ ' + result.error, 'error');
             return;
         }
-
-        sessionStorage.setItem('prediction_result', JSON.stringify(result));
+        sessionStorage.setItem('placeiq_result', JSON.stringify(result));
         window.location.href = '/result';
-    } catch (err) {
-        showToast('Failed to connect to server', 'error');
-        btn.disabled = false;
-        btn.textContent = '◈ Analyze Placement Probability';
+    } catch(err) {
+        overlay.classList.remove('show');
+        showToast('Connection error — is the engine running?', 'error');
     }
 });
 </script>
