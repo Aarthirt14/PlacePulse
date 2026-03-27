@@ -1,101 +1,106 @@
 {% extends "base.html" %}
-{% block title %}Upload Dataset – PlaceIQ{% endblock %}
-{% block page_title %}Upload Dataset{% endblock %}
-{% block page_sub %}Upload your college's CSV dataset to retrain the model{% endblock %}
+{% block title %}Data Ingestion – PlaceIQ{% endblock %}
+{% block page_title %}Ingestion Terminal{% endblock %}
+{% block page_sub %}Inject institutional datasets to recalibrate neural architectures.{% endblock %}
 
 {% block extra_head %}
 <style>
-.upload-zone {
-    border:2px dashed var(--border2); border-radius:var(--radius-lg);
-    padding:56px 36px; text-align:center; cursor:pointer;
-    transition:all .22s ease; position:relative;
-    background:var(--card);
-}
-.upload-zone:hover, .upload-zone.drag-over {
-    border-color:var(--primary);
-    background:rgba(245,158,11,.04);
-    box-shadow:0 0 0 4px rgba(245,158,11,.08);
-}
-.upload-zone .uz-icon { font-size:52px; margin-bottom:14px; display:block; }
-.upload-zone h3 { font-size:19px; font-weight:700; margin-bottom:7px; }
-.upload-zone p { color:var(--text2); font-size:14px; }
-#file-input { display:none; }
-.upload-progress {
-    display:none; padding:22px; background:var(--bg3);
-    border:1px solid var(--border); border-radius:var(--radius-lg); margin-top:18px;
-}
-.progress-bar-wrap { background:rgba(255,255,255,.07); border-radius:100px; height:7px; overflow:hidden; margin:11px 0; }
-.progress-bar { height:7px; background:linear-gradient(90deg,var(--primary),var(--rose)); border-radius:100px; width:0; transition:width .3s ease; }
-.step-list { display:flex; flex-direction:column; gap:14px; margin-top:8px; }
-.step-item { display:flex; gap:12px; align-items:flex-start; }
-.step-num {
-    width:28px; height:28px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:12px; font-weight:700; flex-shrink:0;
-}
-.col-schema { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:14px; }
-.col-item {
-    background:var(--bg3); border:1px solid var(--border); border-radius:var(--radius);
-    padding:11px 14px;
-}
-.col-item .c-name { font-size:12.5px; font-weight:700; font-family:var(--mono); color:var(--primary); }
-.col-item .c-desc { font-size:11.5px; color:var(--text2); margin-top:2px; }
-.col-item .c-req { font-size:10px; padding:2px 6px; border-radius:4px; background:rgba(251,113,133,.15); color:var(--rose); display:inline-block; margin-top:4px; }
-.col-item .c-opt { font-size:10px; padding:2px 6px; border-radius:4px; background:rgba(56,189,248,.12); color:var(--sky); display:inline-block; margin-top:4px; }
+    .upload-container { display: grid; grid-template-columns: 1fr 400px; gap: 32px; align-items: start; }
+    
+    .ingestion-zone {
+        border: 2px dashed var(--border-glass); border-radius: var(--radius-lg);
+        padding: 64px 32px; text-align: center; cursor: pointer;
+        background: rgba(255,255,255,0.01); transition: var(--transition);
+        position: relative; overflow: hidden;
+    }
+    .ingestion-zone:hover, .ingestion-zone.drag-over {
+        border-color: var(--primary); background: rgba(245,158,11,0.03);
+        transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .ingestion-zone i { font-size: 48px; display: block; margin-bottom: 20px; opacity: 0.8; }
+    .ingestion-zone h3 { font-family: var(--font-head); font-size: 18px; color: var(--text-high); margin-bottom: 8px; }
+    .ingestion-zone p { font-size: 13px; color: var(--text-low); }
+
+    .telemetry-pane {
+        display: none; margin-top: 24px; padding: 24px;
+        background: var(--card-glass); border: 1px solid var(--border-glass);
+        border-radius: 16px; backdrop-filter: blur(12px);
+    }
+    
+    .status-bridge { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .status-bridge span { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; }
+
+    .progress-track { height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+    .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 15px rgba(245,158,11,0.4); }
+
+    .schema-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
+    .schema-item {
+        background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass);
+        padding: 14px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .schema-item .meta { display: flex; flex-direction: column; gap: 2px; }
+    .schema-item .name { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--primary); }
+    .schema-item .desc { font-size: 11px; color: var(--text-low); }
+    .schema-item .tag { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+
+    .step-chronology { margin-top: 32px; border-top: 1px solid var(--border-glass); padding-top: 24px; }
+    .chron-item { display: flex; gap: 16px; margin-bottom: 20px; }
+    .chron-marker { 
+        width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.05);
+        display: flex; align-items: center; justify-content: center; font-family: var(--font-mono);
+        font-size: 11px; font-weight: 800; flex-shrink: 0; color: var(--text-mid);
+    }
+    .chron-text h4 { font-size: 13.5px; color: var(--text-high); margin-bottom: 4px; }
+    .chron-text p { font-size: 12px; color: var(--text-low); line-height: 1.5; }
+
+    @media (max-width: 1000px) { .upload-container { grid-template-columns: 1fr; } }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="grid-2" style="align-items:start">
+
+<div class="upload-container">
     <div>
-        <div class="card" style="margin-bottom:18px">
-            <div class="card-title">⤒ Upload CSV Dataset</div>
-            <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
-                <span class="uz-icon">📊</span>
-                <h3>Drop your CSV here</h3>
-                <p>or click to browse<br><span style="font-size:12px;color:var(--text3)">Max 16MB · CSV format only</span></p>
-                <input type="file" id="file-input" accept=".csv">
+        <div class="card" style="padding: 32px;">
+            <div class="card-title">Neural Data Ingestion</div>
+            <p style="color:var(--text-mid); font-size:14px; margin-bottom:24px;">Drop institutional telemetry files to initiate autonomous model recalibration and global feature synchronization.</p>
+            
+            <div class="ingestion-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+                <i>📊</i>
+                <h3>Upload Institutional Core</h3>
+                <p>Drag & drop institutional CSV or browse internal files<br><span style="color:var(--text-low); font-size:11px; margin-top:8px; display:block;">MAX 16MB • STANDARDIZED CSV FORMAT ONLY</span></p>
+                <input type="file" id="file-input" accept=".csv" style="display:none">
             </div>
 
-            <div class="upload-progress" id="upload-progress">
-                <div style="display:flex;align-items:center;gap:10px">
-                    <span id="file-name" style="font-size:14px;color:var(--text2)">Uploading…</span>
-                    <span id="upload-status" class="tag tag-amber">Processing</span>
+            <div class="telemetry-pane" id="upload-progress">
+                <div class="status-bridge">
+                    <span id="file-name" style="color:var(--text-mid)">DATASET_CORE_2024.CSV</span>
+                    <span id="upload-status" style="color:var(--primary)">SYNCHRONIZING...</span>
                 </div>
-                <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
-                <p id="progress-message" style="font-size:13px;color:var(--text2)">Validating dataset…</p>
+                <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+                <p id="progress-message" style="font-size:12px; color:var(--text-low); font-family:var(--font-mono);">Validating row integrity and feature mapping...</p>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="card-title">⚙ What Happens After Upload?</div>
-            <div class="step-list">
-                <div class="step-item">
-                    <div class="step-num" style="background:rgba(245,158,11,.15);color:var(--primary)">1</div>
-                    <div>
-                        <div style="font-weight:700;margin-bottom:3px">Data Cleaning & Validation</div>
-                        <p style="font-size:13px;color:var(--text2)">Missing values handled, columns standardized, data types validated.</p>
+            <div class="step-chronology">
+                <div class="chron-item">
+                    <div class="chron-marker" style="color:var(--primary); background:rgba(245,158,11,0.1)">01</div>
+                    <div class="chron-text">
+                        <h4>Integrity Validation</h4>
+                        <p>Handling missing vectors, standardizing categorical columns, and enforcing architectural data types.</p>
                     </div>
                 </div>
-                <div class="step-item">
-                    <div class="step-num" style="background:rgba(56,189,248,.12);color:var(--sky)">2</div>
-                    <div>
-                        <div style="font-weight:700;margin-bottom:3px">Feature Engineering</div>
-                        <p style="font-size:13px;color:var(--text2)">Academic, experience, and skill scores computed from raw features.</p>
+                <div class="chron-item">
+                    <div class="chron-marker">02</div>
+                    <div class="chron-text">
+                        <h4>Feature Synthesis</h4>
+                        <p>Recursive engineering of academic, experience, and skill-based vectors from raw institutional telemetry.</p>
                     </div>
                 </div>
-                <div class="step-item">
-                    <div class="step-num" style="background:rgba(52,211,153,.12);color:var(--emerald)">3</div>
-                    <div>
-                        <div style="font-weight:700;margin-bottom:3px">EDA Graph Generation</div>
-                        <p style="font-size:13px;color:var(--text2)">All EDA graphs regenerated from your custom dataset.</p>
-                    </div>
-                </div>
-                <div class="step-item">
-                    <div class="step-num" style="background:rgba(251,113,133,.12);color:var(--rose)">4</div>
-                    <div>
-                        <div style="font-weight:700;margin-bottom:3px">Model Retraining</div>
-                        <p style="font-size:13px;color:var(--text2)">All 4 models retrained and best one selected automatically.</p>
+                <div class="chron-item">
+                    <div class="chron-marker">03</div>
+                    <div class="chron-text">
+                        <h4>Neural Recalibration</h4>
+                        <p>Retraining the ensemble architecture (Logistic, RF, SVM, XGB) on the refined dataset core.</p>
                     </div>
                 </div>
             </div>
@@ -103,59 +108,52 @@
     </div>
 
     <div>
-        <div class="card">
-            <div class="card-title">📋 Expected Column Schema</div>
-            <p style="font-size:13px;color:var(--text2);margin-bottom:14px">The system auto-detects columns. Required columns are marked.</p>
-            <div class="col-schema">
-                <div class="col-item">
-                    <div class="c-name">CGPA</div>
-                    <div class="c-desc">Cumulative GPA (0–10)</div>
-                    <span class="c-req">Required</span>
+        <div class="card" style="padding: 24px;">
+            <div class="card-title">Architectural Schema</div>
+            <p style="font-size:12.5px; color:var(--text-low); margin-bottom:20px;">The system automatically identifies the following feature vectors:</p>
+            
+            <div class="schema-grid">
+                <div class="schema-item">
+                    <div class="meta">
+                        <span class="name">CGPA</span>
+                        <span class="desc">Academic density (0–10)</span>
+                    </div>
+                    <span class="tag" style="background:rgba(251,113,133,0.1); color:#fb7185; border:1px solid rgba(251,113,133,0.2)">Required</span>
                 </div>
-                <div class="col-item">
-                    <div class="c-name">PlacementStatus</div>
-                    <div class="c-desc">0/1 or Placed/Not Placed</div>
-                    <span class="c-req">Required</span>
+                <div class="schema-item">
+                    <div class="meta">
+                        <span class="name">Internships</span>
+                        <span class="desc">Industrial experience count</span>
+                    </div>
+                    <span class="tag" style="background:rgba(251,113,133,0.1); color:#fb7185; border:1px solid rgba(251,113,133,0.2)">Required</span>
                 </div>
-                <div class="col-item">
-                    <div class="c-name">Internships</div>
-                    <div class="c-desc">Count of internships done</div>
-                    <span class="c-req">Required</span>
+                <div class="schema-item">
+                    <div class="meta">
+                        <span class="name">AptitudeScore</span>
+                        <span class="desc">Cognitive baseline (0–100)</span>
+                    </div>
+                    <span class="tag" style="background:rgba(251,113,133,0.1); color:#fb7185; border:1px solid rgba(251,113,133,0.2)">Required</span>
                 </div>
-                <div class="col-item">
-                    <div class="c-name">AptitudeTestScore</div>
-                    <div class="c-desc">Score out of 100</div>
-                    <span class="c-req">Required</span>
+                <div class="schema-item">
+                    <div class="meta">
+                        <span class="name">PlacementStatus</span>
+                        <span class="desc">Training labels (0/1)</span>
+                    </div>
+                    <span class="tag" style="background:rgba(251,113,133,0.1); color:#fb7185; border:1px solid rgba(251,113,133,0.2)">Required</span>
                 </div>
-                <div class="col-item">
-                    <div class="c-name">SSC_Marks</div>
-                    <div class="c-desc">10th grade marks (%)</div>
-                    <span class="c-opt">Optional</span>
+                <div class="schema-item">
+                    <div class="meta">
+                        <span class="name">Projects</span>
+                        <span class="desc">Architectural portfolios</span>
+                    </div>
+                    <span class="tag" style="background:rgba(255,255,255,0.05); color:var(--text-low);">Optional</span>
                 </div>
-                <div class="col-item">
-                    <div class="c-name">HSC_Marks</div>
-                    <div class="c-desc">12th grade marks (%)</div>
-                    <span class="c-opt">Optional</span>
-                </div>
-                <div class="col-item">
-                    <div class="c-name">Projects</div>
-                    <div class="c-desc">Number of projects</div>
-                    <span class="c-opt">Optional</span>
-                </div>
-                <div class="col-item">
-                    <div class="c-name">Stream / Branch</div>
-                    <div class="c-desc">Engineering branch name</div>
-                    <span class="c-opt">Optional</span>
-                </div>
-                <div class="col-item">
-                    <div class="c-name">Backlogs</div>
-                    <div class="c-desc">Number of backlogs</div>
-                    <span class="c-opt">Optional</span>
-                </div>
-                <div class="col-item">
-                    <div class="c-name">SoftSkillsRating</div>
-                    <div class="c-desc">Rating 1–5</div>
-                    <span class="c-opt">Optional</span>
+                <div class="schema-item">
+                    <div class="meta">
+                        <span class="name">SoftSkills</span>
+                        <span class="desc">Communication rating (1–5)</span>
+                    </div>
+                    <span class="tag" style="background:rgba(255,255,255,0.05); color:var(--text-low);">Optional</span>
                 </div>
             </div>
         </div>
@@ -180,24 +178,23 @@ fileInput.addEventListener('change', () => {
 
 function handleFile(file) {
     if (!file.name.endsWith('.csv')) {
-        showToast('Please upload a CSV file only', 'error');
+        showToast('INCORRECT_FORMAT: CSV REQUIRED', 'error');
         return;
     }
 
-    document.getElementById('file-name').textContent = file.name;
-    const progress = document.getElementById('upload-progress');
-    progress.style.display = 'block';
+    document.getElementById('file-name').textContent = file.name.toUpperCase();
+    const progressPane = document.getElementById('upload-progress');
+    progressPane.style.display = 'block';
 
     const bar = document.getElementById('progress-bar');
     const msg = document.getElementById('progress-message');
     const status = document.getElementById('upload-status');
 
     const steps = [
-        [20, 'Uploading file…'],
-        [40, 'Cleaning and validating data…'],
-        [60, 'Generating EDA graphs…'],
-        [80, 'Training models…'],
-        [95, 'Selecting best model…']
+        [20, 'INITIALIZING_INGESTION...'],
+        [40, 'VALIDATING_INTEGRITY_VECTORS...'],
+        [70, 'RECALIBRATING_NEURAL_MODELS...'],
+        [90, 'SYNCHRONIZING_TELEMETRY...']
     ];
 
     let si = 0;
@@ -207,7 +204,7 @@ function handleFile(file) {
             msg.textContent = steps[si][1];
             si++;
         }
-    }, 1500);
+    }, 1200);
 
     const formData = new FormData();
     formData.append('file', file);
@@ -218,23 +215,23 @@ function handleFile(file) {
             clearInterval(interval);
             bar.style.width = '100%';
             if (d.success) {
-                msg.textContent = d.message;
-                status.textContent = '✓ Success';
-                status.className = 'tag tag-green';
-                showToast('Dataset uploaded and model retrained!', 'success');
-                setTimeout(() => window.location.href = '/dashboard', 2500);
+                msg.textContent = 'CORE_SYNCHRONIZATION_COMPLETE';
+                status.textContent = 'SUCCESS';
+                status.style.color = '#34d399';
+                showToast('Architectures recalibrated successfully.', 'success');
+                setTimeout(() => window.location.href = '/dashboard', 2000);
             } else {
-                msg.textContent = 'Error: ' + d.error;
-                status.textContent = '✕ Failed';
-                status.className = 'tag tag-red';
-                showToast('Upload failed: ' + d.error, 'error');
+                msg.textContent = 'ERROR: ' + d.error;
+                status.textContent = 'FAILED';
+                status.style.color = '#fb7185';
+                showToast('Ingestion protocol failed.', 'error');
             }
         })
         .catch(() => {
             clearInterval(interval);
-            showToast('Upload failed. Please try again.', 'error');
-            status.textContent = '✕ Error';
-            status.className = 'tag tag-red';
+            showToast('NETWORK_TIMEOUT: SYSTEM_OFFLINE', 'error');
+            status.textContent = 'ERROR';
+            status.style.color = '#fb7185';
         });
 }
 </script>
