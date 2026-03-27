@@ -1,54 +1,65 @@
 {% extends "base.html" %}
-{% block title %}Career Plan – PlaceIQ{% endblock %}
-{% block page_title %}Career Improvement Plan{% endblock %}
-{% block page_sub %}Weekly roadmap for skill development and placement readiness{% endblock %}
+{% block title %}Strategic Roadmap – PlaceIQ{% endblock %}
+{% block page_title %}Evolutionary Roadmap{% endblock %}
+{% block page_sub %}Weekly tactical execution plan for institutional dominance.{% endblock %}
 
 {% block extra_head %}
 <style>
-.plan-nav { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px; }
-.plan-nav-item {
-    padding:8px 14px; background:var(--bg3); border:1px solid var(--border); border-radius:8px;
-    color:var(--text2); text-decoration:none; font-size:13px; font-weight:500; transition:all .15s;
-}
-.plan-nav-item:hover { border-color:var(--primary); color:var(--text); }
-.plan-nav-item.active { background:rgba(245,158,11,0.1); border-color:var(--primary); color:var(--primary); }
+    .roadmap-nav { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 24px; scrollbar-width: none; }
+    .roadmap-nav::-webkit-scrollbar { display: none; }
+    .nav-pill {
+        padding: 10px 20px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass);
+        border-radius: 100px; color: var(--text-mid); text-decoration: none; font-size: 13px;
+        font-weight: 600; transition: var(--transition); white-space: nowrap;
+    }
+    .nav-pill:hover { border-color: var(--primary); color: var(--text-high); background: rgba(255,255,255,0.05); }
+    .nav-pill.active { background: rgba(245,158,11,0.1); border-color: var(--primary); color: var(--primary); }
 
-.timeline { position:relative; padding-left:30px; margin-top:20px; }
-.timeline::before {
-    content:''; position:absolute; left:7px; top:0; bottom:0; width:1px;
-    background:var(--border2);
-}
+    .evolution-timeline { position: relative; padding-left: 40px; }
+    .evolution-timeline::before {
+        content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px;
+        background: linear-gradient(to bottom, var(--primary), transparent); opacity: 0.3;
+    }
 
-.timeline-week { position:relative; margin-bottom:32px; }
-.timeline-dot {
-    position:absolute; left:-30px; top:5px; width:15px; height:15px;
-    border-radius:50%; background:var(--bg2); border:2px solid var(--primary);
-    box-shadow:0 0 0 4px var(--bg); z-index:2;
-}
-.week-card {
-    background:var(--card); border:1px solid var(--border); border-radius:12px;
-    padding:18px; border-left:4px solid var(--primary);
-}
-.week-num { font-size:11px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
-.week-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
-.week-title { font-size:16px; font-weight:700; color:var(--text); }
-.week-focus { font-size:12px; color:var(--text3); font-style:italic; }
+    .timeline-node { position: relative; margin-bottom: 40px; }
+    .node-marker {
+        position: absolute; left: -40px; top: 0; width: 32px; height: 32px;
+        border-radius: 50%; background: #000; border: 2px solid var(--primary);
+        display: flex; align-items: center; justify-content: center; z-index: 2;
+        box-shadow: 0 0 15px rgba(245,158,11,0.3);
+    }
+    .node-marker span { font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--primary); }
 
-.task-list { list-style:none; }
-.task-item {
-    display:flex; gap:10px; align-items:flex-start; margin-bottom:8px;
-    font-size:13px; color:var(--text2);
-}
-.task-check { width:16px; height:16px; border:1px solid var(--border2); border-radius:4px; margin-top:1px; flex-shrink:0; }
+    .node-card {
+        background: var(--card-glass); border: 1px solid var(--border-glass);
+        border-radius: 16px; padding: 24px; backdrop-filter: blur(12px);
+        transition: var(--transition); border-left: 4px solid var(--primary);
+    }
+    .node-card:hover { transform: translateX(8px); background: rgba(255,255,255,0.02); }
+
+    .node-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .node-meta h3 { font-family: var(--font-head); font-size: 18px; color: var(--text-high); }
+    .node-meta p { font-size: 12px; color: var(--text-low); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .task-stack { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .task-hex {
+        display: flex; gap: 12px; align-items: flex-start; padding: 12px;
+        background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass);
+        border-radius: 10px; font-size: 13px; color: var(--text-mid);
+    }
+    .task-hex i { color: var(--primary); font-size: 14px; margin-top: 2px; }
+
+    @media (max-width: 768px) { .evolution-timeline { padding-left: 30px; } .node-marker { left: -30px; width: 24px; height: 24px; } }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="card" style="margin-bottom:22px">
-    <div class="card-title">Select Focus Area</div>
-    <div class="plan-nav">
+
+<div class="card" style="padding: 24px; margin-bottom: 24px;">
+    <div class="card-title">Objective Selection</div>
+    <div class="roadmap-nav">
         {% for p in plans %}
-        <a href="/plan?skill={{ p.key }}" class="plan-nav-item {% if selected_plan and selected_plan.plan_key == p.key %}active{% endif %}">
+        <a href="/plan?skill={{ p.key }}" class="nav-pill {% if selected_plan and selected_plan.plan_key == p.key %}active{% endif %}">
             {{ p.icon }} {{ p.title }}
         </a>
         {% endfor %}
@@ -56,68 +67,57 @@
 </div>
 
 {% if selected_plan %}
-<div class="grid-3" style="margin-bottom:22px">
-    <div class="stat-card" style="--accent-color:var(--primary)">
-        <span class="stat-icon">{{ selected_plan.icon }}</span>
-        <div class="stat-value">{{ selected_plan.total_weeks }}</div>
-        <div class="stat-label">Total Weeks</div>
+<div class="grid-3" style="margin-bottom: 32px;">
+    <div class="card" style="padding: 20px; border-top: 2px solid var(--primary);">
+        <div style="font-size: 11px; color: var(--text-low); letter-spacing: 0.1em; margin-bottom: 8px;">EPIC_DURATION</div>
+        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--text-high);">{{ selected_plan.total_weeks }} WEEKS</div>
     </div>
-    <div class="stat-card" style="--accent-color:var(--emerald)">
-        <div class="stat-value">Active</div>
-        <div class="stat-label">Plan Status</div>
+    <div class="card" style="padding: 20px; border-top: 2px solid var(--emerald);">
+        <div style="font-size: 11px; color: var(--text-low); letter-spacing: 0.1em; margin-bottom: 8px;">STRATEGIC_GOAL</div>
+        <div style="font-size: 14px; font-weight: 700; color: var(--text-mid);">{{ selected_plan.target }}</div>
     </div>
-    <div class="stat-card" style="--accent-color:var(--sky)" onclick="window.print()">
-        <span class="stat-icon">📄</span>
-        <div class="stat-value">Print</div>
-        <div class="stat-label">Offline Copy</div>
+    <div class="card" style="padding: 20px; border-top: 2px solid var(--sky); cursor: pointer;" onclick="window.print()">
+        <div style="font-size: 11px; color: var(--text-low); letter-spacing: 0.1em; margin-bottom: 8px;">OFFLINE_BUFFER</div>
+        <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--sky);">PRINT // ⤓</div>
     </div>
 </div>
 
-<div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-        <div>
-            <h2 style="font-size:22px;color:var(--primary)">{{ selected_plan.title }} Roadmap</h2>
-            <p style="color:var(--text2);font-size:13.5px">Goal: {{ selected_plan.target }}</p>
-        </div>
-        <div class="tag tag-amber">AI Generated Plan</div>
-    </div>
-
-    <div class="timeline">
-        {% for week in timeline %}
-        <div class="timeline-week">
-            <div class="timeline-dot"></div>
-            <div class="week-card">
-                <div class="week-header">
-                    <div>
-                        <div class="week-num">Week {{ week.week }}</div>
-                        <div class="week-title">{{ week.themes[0] }}</div>
-                    </div>
-                    <div class="week-focus">{{ week.focuses[0] }}</div>
+<div class="evolution-timeline">
+    {% for week in timeline %}
+    <div class="timeline-node">
+        <div class="node-marker"><span>{{ week.week }}</span></div>
+        <div class="node-card">
+            <div class="node-header">
+                <div class="node-meta">
+                    <p>Phase Sequence {{ week.week }}</p>
+                    <h3>{{ week.themes[0] }}</h3>
                 </div>
-                <div class="task-list">
-                    {% for task in week.tasks %}
-                    <div class="task-item">
-                        <div class="task-check"></div>
-                        <span>{{ task }}</span>
-                    </div>
-                    {% endfor %}
+                <div class="tag" style="background:rgba(245,158,11,0.1); color:var(--primary); font-family:var(--font-mono);">{{ week.focuses[0] }}</div>
+            </div>
+            
+            <div class="task-stack">
+                {% for task in week.tasks %}
+                <div class="task-hex">
+                    <i>◈</i>
+                    <span>{{ task }}</span>
                 </div>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
+
 {% else %}
-<div class="card" style="text-align:center;padding:60px">
-    <div style="font-size:48px;margin-bottom:14px">📋</div>
-    <h3>No Plan Selected</h3>
-    <p style="color:var(--text2);margin-bottom:22px;max-width:400px;margin-inline:auto">
-        Please select a focus area from the navigation above to view your personalized weekly roadmap.
-    </p>
-    <div style="display:flex;gap:10px;justify-content:center">
-        <a href="/plan?skill=low_aptitude" class="btn btn-primary">Try Aptitude Plan</a>
-        <a href="/improvement" class="btn btn-outline">Go to Hub</a>
+<div class="card" style="text-align:center; padding:80px 32px;">
+    <div style="font-size:64px; margin-bottom:24px; opacity:0.5;">📋</div>
+    <h2 style="font-family:var(--font-head); font-size:24px; color:var(--text-high); margin-bottom:12px;">Strategic Sequence Required</h2>
+    <p style="color:var(--text-low); margin-bottom:32px; max-width:450px; margin-inline:auto;">Initialize a career evolution roadmap by selecting an objective vector from the terminal above.</p>
+    <div style="display:flex; gap:16px; justify-content:center;">
+        <a href="/plan?skill=low_aptitude" class="btn btn-primary">Initialize Aptitude Protocol</a>
+        <a href="/improvement" class="btn btn-outline">Return to Synthesis</a>
     </div>
 </div>
 {% endif %}
+
 {% endblock %}
