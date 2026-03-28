@@ -100,6 +100,17 @@ def predict_api():
         weaknesses = detect_weaknesses(data)
         career_score = compute_employability_score(data)
         recommendations = generate_advanced_recommendations(data, prob * 100, weaknesses)
+        
+        from utils.llm_service import get_report_summary, get_personalized_recommendations
+        
+        # Try to get a real AI summary if Ollama is available
+        ai_summary = get_report_summary(data, {
+            'prediction': prediction,
+            'probability': round(prob * 100, 2),
+            'top_positive': [f for f, v in zip(feature_cols, shap_vals) if v > 0.02][:3],
+            'top_negative': [f for f, v in zip(feature_cols, shap_vals) if v < -0.02][:3],
+            'risk_score': risk_score
+        })
 
         result = {
             'student_name': data.get('student_name', 'Student'),
@@ -117,6 +128,7 @@ def predict_api():
             'top_negative': [f for f, v in zip(feature_cols, shap_vals) if v < -0.02][:3],
             'weaknesses': weaknesses,
             'career_score': career_score,
+            'ai_summary': ai_summary,
             'input_data': data
         }
 
@@ -126,7 +138,8 @@ def predict_api():
             'category': category,
             'prediction': prediction,
             'recommendations': recommendations,
-            'feature_importance': dict(top_features)
+            'feature_importance': dict(top_features),
+            'ai_summary': ai_summary
         }}
         save_prediction(db_data)
 
@@ -333,6 +346,12 @@ def download_report():
     latest['recommendations'] = recs
     
     from utils.report_generator import generate_txt_report
+    from utils.llm_service import get_report_summary
+    
+    # Add AI summary to latest if missing
+    if not latest.get('ai_summary'):
+        latest['ai_summary'] = get_report_summary(latest, latest)
+
     report_txt = generate_txt_report(latest)
     
     return send_file(
@@ -352,7 +371,7 @@ def suggestions_page():
     cert_path = os.path.join(app.root_path, 'data', 'certifications.json')
     platforms = {}
     if os.path.exists(cert_path):
-        with open(cert_path) as f:
+        with open(cert_path, encoding='utf-8') as f:
             platforms = json.load(f).get('platforms', {})
             
     return render_template('suggestions.html', platforms=platforms)
